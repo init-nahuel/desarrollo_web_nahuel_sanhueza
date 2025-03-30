@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Actividad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills mb-4 mt-1">
+            <li class="nav-item">
+              <a class="nav-link" href="./home.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="./crear-actividad.html">Agregar actividad</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./listado-actividades.html">Ver listado de actividades</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./estadisticas.html">Estadísticas</a>
+            </li>
+        </ul>
+    </header>
+
+    <form class="container form" id="product-form" action="./home.html" method="post">
+        <h1 class="text-center">Agregar actividad</h1>
+
+        <div class="mb-5" style="width: 600px; margin: 0 auto;">
+            <h3>Informacion del lugar</h3>
+            <div class="mb-3">
+                <label for="selectRegion" class="form-label">Region</label>
+                <select class="form-select" aria-label="selectRegion" id="selectRegion">
+                    <option value="" selected>Seleccione Region</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="selectComuna" class="form-label">Comuna</label>
+                <select id="selectComuna" class="form-select" aria-label="selectComuna" disabled>
+                    <option value="" selected>Seleccione Comuna</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label for="sector" class="form-label">Sector</label>
+                <input type="text" maxlength="100" class="form-control" id="sector" placeholder="Sector">
+            </div>
+
+            <h3>Datos del organizador</h3>
+            <div class="mb-3">
+                <label for="nombreOrganizador" class="form-label">Nombre</label>
+                <input type="text" maxlength="200" class="form-control" id="nombreOrganizador" placeholder="Diego">
+            </div>
+            <div class="mb-3">
+                <label for="emailOrganizador" class="form-label">Email</label>
+                <input type="email" maxlength="100" class="form-control" id="emailOrganizador" placeholder="diego@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="telefonoOrganizador" class="form-label">Telefono</label>
+                <input type="tel" class="form-control" id="telefonoOrganizador" placeholder="+569 12345678">
+            </div>
+            <div class="row g-3 mb-2">
+                <div class="col">
+                    <select id="selectContactarPor" class="form-select" aria-label="selectContactarPor">
+                        <option value="" selected disabled>Contactar por</option>
+                        <option value="whatsapp">Whatsapp</option>
+                        <option value="telegram">Telegram</option>
+                        <option value="x">X</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="tiktok">Tiktok</option>
+                        <option value="otra">Otra</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <div class="mb-3" hidden id="divContactarPor">
+                        <input type="text" class="form-control" id="inputContactarPor" placeholder="Contactar por">
+                    </div>
+                </div>
+            </div>
+
+            <h3>Informacion de la actividad</h3>
+            <div class="mb-3">
+                <label for="diaHoraInicio" class="form-label">Dia hora inicio</label>
+                <input type="datetime-local" class="form-control" id="diaHoraInicio">
+            </div>
+            <div class="mb-3">
+                <label for="diaHoraTermino" class="form-label">Dia hora termino</label>
+                <input type="datetime-local" class="form-control" id="diaHoraTermino">
+            </div>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" id="descripcion">
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col">
+                    <select id="selectTema" class="form-select" aria-label="selectTema">
+                        <option value="" selected disabled>Tema</option>
+                        <option value="musica">Musica</option>
+                        <option value="deporte">Deporte</option>
+                        <option value="ciencias">Ciencias</option>
+                        <option value="religion">Religion</option>
+                        <option value="politica">Politica</option>
+                        <option value="tecnologia">Tecnologia</option>
+                        <option value="juegos">Juegos</option>
+                        <option value="baile">Baile</option>
+                        <option value="comida">Comida</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <div class="mb-3" id="divTema" hidden>
+                        <input type="text" minlength="3" maxlength="15" class="form-control" id="tema" placeholder="Tema">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inputFotos" class="form-label">Foto</label>
+                <input type="file" class="form-control" id="inputFotos" multiple>
+            </div>
+            
+            <button class="btn btn-primary" type="submit" id="agregarActividad">Agregar esta actividad</button>
+            
+            <div class="mb-3" style="visibility: hidden;" id="confirmarAgregarActividad">
+                <p>¿Está seguro que desea agregar esta actividad?</p>
+                <button class="btn btn-primary" type="button" id="agregarActividadSubmit">Si, estoy seguro</button>
+                <button class="btn btn-primary" type="button" id="denyAgregarActividadSubmit">No, no estoy seguro, quiero volver al formulario</button>
+            </div>
+
+            <div class="mb-3" id="confirmationMessage" style="visibility: hidden;">
+                <p>Hemos recibido su información, muchas gracias y suerte en su actividad</p>
+                <button class="btn btn-primary" type="button" id="volverInicioButton">Volver al inicio</button>
+            </div>
+        </div>
+
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="./js/fill-dropdowns.js"></script>
+    <script src="./js/validacion-crear-actividad.js"></script>
+</body>
+</html>
