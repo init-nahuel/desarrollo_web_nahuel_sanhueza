@@ -1,13 +1,12 @@
 from app.models.base import Base
 
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-from sqlalchemy import String, Integer
+from sqlalchemy import String
 
 
 class Region(Base):
     __tablename__ = "region"
 
-    id: Mapped[int] = mapped_column(Integer())
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nombre: Mapped[str] = mapped_column(String(200))

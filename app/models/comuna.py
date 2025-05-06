@@ -1,14 +1,13 @@
 from app.models.base import Base
 
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-from sqlalchemy import String, Integer
+from sqlalchemy import String, ForeignKey
 
 
 class Comuna(Base):
     __tablename__ = "comuna"
 
-    id: Mapped[int] = mapped_column(Integer())
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nombre: Mapped[str] = mapped_column(String(200))
-    region: Mapped[int] = mapped_column(Integer())
+    region_id: Mapped[int] = mapped_column(ForeignKey("region.id"))

@@ -2,17 +2,16 @@ import datetime
 
 from app.models.base import Base
 
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-from sqlalchemy import String, Integer, DateTime
+from sqlalchemy import String, DateTime, ForeignKey
 
 
 class Actividad(Base):
     __tablename__ = "actividad"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    comuna: Mapped[int] = mapped_column(Integer())
+    comuna_id: Mapped[int] = mapped_column(ForeignKey("comuna.id"))
     sector: Mapped[str] = mapped_column(String(100))
     nombre: Mapped[str] = mapped_column(String(200))
     email: Mapped[str] = mapped_column(String(100))

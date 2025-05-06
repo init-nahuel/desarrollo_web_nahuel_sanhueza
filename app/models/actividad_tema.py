@@ -2,10 +2,9 @@ import enum
 
 from app.models.base import Base
 
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-from sqlalchemy import Integer, Enum, String
+from sqlalchemy import Enum, String, ForeignKey
 
 
 class Tema(enum.Enum):
@@ -24,7 +23,7 @@ class Tema(enum.Enum):
 class ActividadTema(Base):
     __tablename__ = "actividad_tema"
 
-    id: Mapped[int] = mapped_column(Integer())
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     tema: Mapped[Tema] = mapped_column(Enum(Tema))
     glosa_otro: Mapped[str] = mapped_column(String(15))
-    actividad_id: Mapped[int] = mapped_column(Integer())
+    actividad_id: Mapped[int] = mapped_column(ForeignKey("actividad.id"))
