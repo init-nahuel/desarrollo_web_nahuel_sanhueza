@@ -11,17 +11,18 @@
     <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills mb-4 mt-1">
             <li class="nav-item">
-              <a class="nav-link" href="./home.html">Inicio</a>
+              <a class="nav-link" href="{{ url_for('main.home') }}">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./crear-actividad.html">Agregar actividad</a>
+              <a class="nav-link" href="{{ url_for('main.crear_actividad') }}">Agregar actividad</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./listado-actividades.html">Ver listado de actividades</a>
+              <a class="nav-link" href="{{ url_for('main.listado_actividades') }}">Ver listado de actividades</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="./estadisticas.html">Estadísticas</a>
+              <a class="nav-link active" href="{{ url_for('main.estadisticas') }}">Estadísticas</a>
             </li>
+        </ul>
         </ul>
     </header>
 
