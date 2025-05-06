@@ -13,13 +13,13 @@
               <a class="nav-link active" href="./home.html">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./crear-actividad.html">Agregar actividad</a>
+              <a class="nav-link" href="{{ url_for('main.crear_actividad') }}">Agregar actividad</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./listado-actividades.html">Ver listado de actividades</a>
+              <a class="nav-link" href="{{ url_for('main.listado_actividades') }}">Ver listado de actividades</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./estadisticas.html">Estadísticas</a>
+              <a class="nav-link" href="{{ url_for('main.estadisticas') }}">Estadísticas</a>
             </li>
         </ul>
     </header>
@@ -29,11 +29,11 @@
         style="border: 1px solid #333333; background-color: #f8f9fa; padding: 15px; border-radius:8px; width: 400px;">
             <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
-                     role="tab" href="./crear-actividad.html">Agregar actividad</a>
+                     role="tab" href="{{ url_for('main.crear_actividad') }}">Agregar actividad</a>
                 <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
-                     role="tab" href="./listado-actividades.html">Ver listado de actividades</a>
+                     role="tab" href="{{ url_for('main.listado_actividades') }}">Ver listado de actividades</a>
                 <a class="nav-link" id="v-pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#v-pills-disabled"
-                     role="tab" href="./estadisticas.html">Estadísticas</a>
+                     role="tab" href="{{ url_for('main.estadisticas') }}">Estadísticas</a>
             </div>
         </div>
     </div>
