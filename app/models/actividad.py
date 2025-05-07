@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import datetime
 
-from __future__ import annotations
 
 from app.models.base import Base
 
