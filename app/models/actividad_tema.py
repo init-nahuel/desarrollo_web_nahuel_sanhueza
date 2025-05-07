@@ -28,7 +28,8 @@ class ActividadTema(Base):
     __tablename__ = "actividad_tema"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    tema: Mapped[Tema] = mapped_column(Enum(Tema))
+    tema: Mapped[Tema] = mapped_column(
+        Enum(Tema, values_callable=lambda obj: [e.value for e in obj]))
     glosa_otro: Mapped[str] = mapped_column(String(15))
     actividad_id: Mapped[int] = mapped_column(ForeignKey("actividad.id"))
 
