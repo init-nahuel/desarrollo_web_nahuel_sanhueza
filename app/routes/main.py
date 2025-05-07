@@ -4,6 +4,8 @@ from app.db import get_db_session
 
 from app.models.actividad import Actividad
 
+from app.utilities.parsing import parse_actividades_for_home_page
+
 main_routes = Blueprint("main", __name__)
 
 
@@ -12,6 +14,8 @@ def home():
     actividades = []
     with next(get_db_session()) as db:
         actividades = Actividad.get_actividades(db)
+        actividades = parse_actividades_for_home_page(db, actividades)
+
     return render_template("home.html", actividades=actividades)
 
 
