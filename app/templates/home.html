@@ -51,6 +51,16 @@
                 </tr>
             </thead>
             <tbody>
+                {% for actividad in actividades %}
+                <tr>
+                    <td>{{ actividad.dia_hora_inicio }}</td>
+                    <td>{{ actividad.dia_hora_termino }}</td>
+                    <td>{{ actividad.sector }}</td>
+                    <td>{{ actividad.sector }}</td>
+                    <td>Escuela de boxeo</td>
+                    <td><img src="./imgs/gatobox.jpg" alt="cat boxing" width="150"></td>
+                </tr>
+                {% endfor %}
                 <tr>
                     <td>2025-03-28 12:00</td>
                     <td>2025-03-28 14:00</td>
