@@ -32,8 +32,8 @@ def parse_actividades_for_home_page(db: Session, actividades: List[Actividad]) -
             "termino": actividad.dia_hora_termino,
             "comuna": comuna.nombre,
             "sector": actividad.sector,
-            "tema": tema.tema,
-            "foto": fotos[1].ruta_archivo
+            "tema": tema.tema.value,
+            # "foto": fotos[1].ruta_archivo
         })
 
     return data_dict
