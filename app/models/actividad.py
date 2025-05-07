@@ -9,7 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, Session
 
 from sqlalchemy import String, DateTime, ForeignKey
 
-from typing import List
+from typing import List, Optional
 
 
 class Actividad(Base):
@@ -28,3 +28,7 @@ class Actividad(Base):
     @staticmethod
     def get_actividades(db: Session, limit: int = 10) -> List[Actividad]:
         return db.query(Actividad).limit(limit).all()
+
+    @staticmethod
+    def get_actividad_by_id(db: Session, id: int) -> Optional[Actividad]:
+        return db.query(Actividad).filter_by(id=id).first()
