@@ -1,4 +1,6 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, sessionmaker
+
+from sqlalchemy import create_engine
 
 DB_NAME = "tarea2"
 DB_USERNAME = "cc5002"
@@ -7,3 +9,16 @@ DB_HOST = "localhost"
 DB_PORT = 3306
 
 DATABASE_URL = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+engine = create_engine(DATABASE_URL, echo=True)
+SessionLocal = sessionmaker(bind=engine)
+
+
+def get_db_session():
+    """Obtiene una sesion de la base de datos
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
