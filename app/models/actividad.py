@@ -32,3 +32,8 @@ class Actividad(Base):
     @staticmethod
     def get_actividad_by_id(db: Session, id: int) -> Optional[Actividad]:
         return db.query(Actividad).filter_by(id=id).first()
+
+    @staticmethod
+    def get_actividades_paginated(db: Session, page: int, items_per_page: int = 5) -> List[Actividad]:
+        offset = (page - 1) * items_per_page
+        return db.query(Actividad).offset(offset).limit(items_per_page).all()
