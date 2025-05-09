@@ -16,3 +16,4 @@ class ListadoData(BaseDataModel):
     tema: str = ""
     nombre_organizador: str = ""
     total_fotos: int = 0
+    url: str = ""

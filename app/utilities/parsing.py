@@ -14,11 +14,11 @@ from typing import List, Dict, Any
 
 def parse_actividades_for_home_page(db: Session, actividades: List[Actividad]) -> List[Dict[str, Any]]:
     """Parsea una lista de actividades para generar una lista de diccionarios con la informacion de la actividad
-     y llaves para el nombre de la comuna, tema y foto de la actividad requeridos por la tabla 
+     y llaves para el nombre de la comuna, tema y foto de la actividad requeridos por la tabla
      de la pagina home
 
     Args:
-        actividades (List[Actividad]): Lista de actividades a parsear              
+        actividades (List[Actividad]): Lista de actividades a parsear
 
     Returns:
         List[Dict[str, Any]]: Lista de diccionarios con la informacion de la actividad
@@ -54,7 +54,7 @@ def parse_actividades_for_listado_page(db: Session, actividades: List[Actividad]
     en la pagina listado de actividades
 
     Args:
-        actividades (List[Actividad]): Lista de actividades a parsear              
+        actividades (List[Actividad]): Lista de actividades a parsear
 
     Returns:
         List[ListadoData]: Lista de diccionarios con la informacion de la actividad
@@ -67,7 +67,7 @@ def parse_actividades_for_listado_page(db: Session, actividades: List[Actividad]
         actividad_tema: ActividadTema = ActividadTema.get_actividad_tema_by_actividad_id(
             db, actividad.id)
         fotos = Foto.get_fotos_by_actividad_id(db, actividad.id)
-        data.append(ListadoData(inicio=actividad.dia_hora_inicio, termino=actividad.dia_hora_termino, comuna=comuna.nombre,
-                    sector=actividad.sector, tema=actividad_tema.tema.value, nombre_organizador=actividad.nombre, total_fotos=len(fotos)))
+        data.append(ListadoData(inicio=actividad.dia_hora_inicio, termino=actividad.dia_hora_termino, comuna=comuna.nombre, sector=actividad.sector,
+                    tema=actividad_tema.tema.value, nombre_organizador=actividad.nombre, total_fotos=len(fotos), url=url_for("main.detalle-actividad", actividad_id=actividad.id)))
 
     return data

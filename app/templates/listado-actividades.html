@@ -51,6 +51,7 @@
             <tbody>
                 
                     {% for actividad_data in actividades_data %}
+                    <a href="{{ actividad.url }}"></a>
                     <tr>
                         <td>{{ actividad_data.inicio }}</td>
                         <td>{{ actividad_data.termino }}</td>
