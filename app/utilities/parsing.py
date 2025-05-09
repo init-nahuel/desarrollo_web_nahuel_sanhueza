@@ -5,6 +5,8 @@ from app.models.actividad_tema import ActividadTema
 from app.models.comuna import Comuna
 from app.models.foto import Foto
 
+from app.models.data_models.listado_data import ListadoData
+
 from flask import url_for
 
 from typing import List, Dict, Any
@@ -45,3 +47,27 @@ def parse_actividades_for_home_page(db: Session, actividades: List[Actividad]) -
         })
 
     return data_dict
+
+
+def parse_actividades_for_listado_page(db: Session, actividades: List[Actividad]) -> List[ListadoData]:
+    """Parsea una lista de actividades para obtener los atributos requeridos que se muestran
+    en la pagina listado de actividades
+
+    Args:
+        actividades (List[Actividad]): Lista de actividades a parsear              
+
+    Returns:
+        List[ListadoData]: Lista de diccionarios con la informacion de la actividad
+    """
+
+    data = []
+
+    for actividad in actividades:
+        comuna = Comuna.get_comuna_by_id(db, actividad.comuna_id)
+        actividad_tema: ActividadTema = ActividadTema.get_actividad_tema_by_actividad_id(
+            db, actividad.id)
+        fotos = Foto.get_fotos_by_actividad_id(db, actividad.id)
+        data.append(ListadoData(inicio=actividad.dia_hora_inicio, termino=actividad.dia_hora_termino, comuna=comuna.nombre,
+                    sector=actividad.sector, tema=actividad_tema.tema.value, nombre_organizador=actividad.nombre, total_fotos=len(fotos)))
+
+    return data
