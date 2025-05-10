@@ -31,9 +31,11 @@
         <div class="product-info">
             <h1>Información del producto</h1>
             <div class="product-info-container">
+                {% if listado_data.fotos_urls.0 %}
                 <div class="product-info-image mb-2">
-                    <img src="imgs/gatobox.jpg" data-bs-toggle="modal" data-bs-target="#exampleModal" width="320" height="240" alt="Cats boxing">
+                    <img src="{{ listado_data.fotos_urls.0 }}" data-bs-toggle="modal" data-bs-target="#exampleModal" width="320" height="240" alt="Cats boxing">
                 </div>
+                {% endif %}
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
@@ -43,25 +45,25 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-0">
-                            <img src="./imgs/gatobox.jpg" style="width: 800px; height: 600px; object-fit: contain;" alt="Cats boxing">
+                            <img src="{{ listado_data.fotos_urls.0 }}" style="width: 800px; height: 600px; object-fit: contain;" alt="Cats boxing">
                         </div>
                     </div>
                 </div>
             </div>
 
                 <div class="product-info-details">
-                    <p><strong>Inicio:</strong> 2025-03-28 12:00</p>
-                    <p><strong>Termino:</strong> 2025-03-28 14:00</p>
-                    <p><strong>Comuna:</strong> Santiago</p>
-                    <p><strong>Sector:</strong> Beauchef 850, terraza</p>
-                    <p><strong>Tema:</strong> Boxeo</p>
-                    <p><strong>Nombre organizador:</strong> Cat Boxing Club</p>
+                    <p><strong>Inicio:</strong>{{ listado_data.inicio }}</p>
+                    <p><strong>Termino:</strong>{{ listado_data.termino }}</p>
+                    <p><strong>Comuna:</strong>{{ listado_data.comuna }}</p>
+                    <p><strong>Sector:</strong>{{ listado_data.sector }}</p>
+                    <p><strong>Tema:</strong>{{ listado_data.tema }}</p>
+                    <p><strong>Nombre organizador:</strong>{{ listado_data.nombre_organizador }}</p>
                 </div>
             </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <a href="./home.html" class="btn btn-primary">Volver al Inicio</a>
-            <a href="./listado-actividades.html" class="btn btn-primary ms-2">Volver al listado de actividades</a>
+            <a href="{{ url_for('main.home') }}" class="btn btn-primary">Volver al Inicio</a>
+            <a href="{{ url_for('main.listado_actividades') }}" class="btn btn-primary ms-2">Volver al listado de actividades</a>
         </div>
     </div>
 </body>
