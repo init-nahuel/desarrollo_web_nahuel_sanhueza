@@ -8,6 +8,8 @@ from sqlalchemy import String, ForeignKey
 
 from typing import Optional, List
 
+from flask import url_for
+
 
 class Foto(Base):
     __tablename__ = "foto"
@@ -20,3 +22,7 @@ class Foto(Base):
     @staticmethod
     def get_fotos_by_actividad_id(db: Session, actividad_id) -> List[Optional[Foto]]:
         return db.query(Foto).filter_by(actividad_id=actividad_id).all()
+
+    @staticmethod
+    def generate_foto_url(foto: Foto) -> str:
+        return url_for("static", filename=f"img/{foto.nombre_archivo}")
