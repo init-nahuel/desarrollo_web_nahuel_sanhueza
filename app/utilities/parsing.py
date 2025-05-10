@@ -49,25 +49,23 @@ def parse_actividades_for_home_page(db: Session, actividades: List[Actividad]) -
     return data_dict
 
 
-def parse_actividades_for_listado_page(db: Session, actividades: List[Actividad]) -> List[ListadoData]:
-    """Parsea una lista de actividades para obtener los atributos requeridos que se muestran
-    en la pagina listado de actividades
+def parse_actividad_to_listado_data(db: Session, actividad: Actividad) -> ListadoData:
+    """Parsea una lista de actividades para generar un objeto de tipo ListadoData, esta clase
+    usualmente se utiliza para enviar datos a la pagina listado de actividad los campos de la bd
+    que se requieren, tambien se utiliza para enviar los datos a detalle-actividad
 
     Args:
-        actividades (List[Actividad]): Lista de actividades a parsear
+        actividad (Actividad): Actividad a parsear
 
     Returns:
-        List[ListadoData]: Lista de diccionarios con la informacion de la actividad
+        ListadoData: Instancia ListadoData con la informacion de la actividad
     """
 
-    data = []
+    comuna = Comuna.get_comuna_by_id(db, actividad.comuna_id)
+    actividad_tema: ActividadTema = ActividadTema.get_actividad_tema_by_actividad_id(
+        db, actividad.id)
+    fotos = Foto.get_fotos_by_actividad_id(db, actividad.id)
+    listado_data = ListadoData(inicio=actividad.dia_hora_inicio, termino=actividad.dia_hora_termino, comuna=comuna.nombre, sector=actividad.sector,
+                               tema=actividad_tema.tema.value, nombre_organizador=actividad.nombre, total_fotos=len(fotos), url=url_for("main.detalle_actividad", actividad_id=actividad.id))
 
-    for actividad in actividades:
-        comuna = Comuna.get_comuna_by_id(db, actividad.comuna_id)
-        actividad_tema: ActividadTema = ActividadTema.get_actividad_tema_by_actividad_id(
-            db, actividad.id)
-        fotos = Foto.get_fotos_by_actividad_id(db, actividad.id)
-        data.append(ListadoData(inicio=actividad.dia_hora_inicio, termino=actividad.dia_hora_termino, comuna=comuna.nombre, sector=actividad.sector,
-                    tema=actividad_tema.tema.value, nombre_organizador=actividad.nombre, total_fotos=len(fotos), url=url_for("main.detalle_actividad", actividad_id=actividad.id)))
-
-    return data
+    return listado_data
