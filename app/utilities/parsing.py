@@ -64,8 +64,12 @@ def parse_actividad_to_listado_data(db: Session, actividad: Actividad) -> Listad
     comuna = Comuna.get_comuna_by_id(db, actividad.comuna_id)
     actividad_tema: ActividadTema = ActividadTema.get_actividad_tema_by_actividad_id(
         db, actividad.id)
+
     fotos = Foto.get_fotos_by_actividad_id(db, actividad.id)
-    listado_data = ListadoData(inicio=actividad.dia_hora_inicio, termino=actividad.dia_hora_termino, comuna=comuna.nombre, sector=actividad.sector,
-                               tema=actividad_tema.tema.value, nombre_organizador=actividad.nombre, total_fotos=len(fotos), url=url_for("main.detalle_actividad", actividad_id=actividad.id))
+    fotos: List[Foto] = list(filter(lambda f: f is not None, fotos))
+    fotos_urls = list(map(Foto.generate_foto_url, fotos))
+
+    listado_data = ListadoData(inicio=actividad.dia_hora_inicio, termino=actividad.dia_hora_termino, comuna=comuna.nombre, sector=actividad.sector, tema=actividad_tema.tema.value,
+                               nombre_organizador=actividad.nombre, total_fotos=len(fotos), url=url_for("main.detalle_actividad", actividad_id=actividad.id), fotos_urls=fotos_urls)
 
     return listado_data
