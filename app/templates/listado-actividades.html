@@ -51,16 +51,17 @@
             <tbody>
                 
                     {% for actividad_data in actividades_data %}
-                    <a href="{{ actividad.url }}"></a>
-                    <tr>
-                        <td>{{ actividad_data.inicio }}</td>
-                        <td>{{ actividad_data.termino }}</td>
-                        <td>{{ actividad_data.comuna }}</td>
-                        <td>{{ actividad_data.sector }}</td>
-                        <td>{{ actividad_data.tema }}</td>
-                        <td>{{ actividad_data.nombre_organizador }}</td>
-                        <td>{{ actividad_data.total_fotos }}</td>
-                    </tr>
+                    <a href="{{ actividad_data.url }}">
+                        <tr>
+                            <td>{{ actividad_data.inicio }}</td>
+                            <td>{{ actividad_data.termino }}</td>
+                            <td>{{ actividad_data.comuna }}</td>
+                            <td>{{ actividad_data.sector }}</td>
+                            <td>{{ actividad_data.tema }}</td>
+                            <td>{{ actividad_data.nombre_organizador }}</td>
+                            <td>{{ actividad_data.total_fotos }}</td>
+                        </tr>
+                    </a>
                     {% endfor %}
         </table>
     </div>
