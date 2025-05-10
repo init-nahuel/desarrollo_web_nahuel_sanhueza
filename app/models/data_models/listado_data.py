@@ -1,8 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from datetime import datetime
 
-from typing import Optional
+from typing import Optional, List
 
 from app.models.data_models.base_data_model import BaseDataModel
 
@@ -17,3 +17,4 @@ class ListadoData(BaseDataModel):
     nombre_organizador: str = ""
     total_fotos: int = 0
     url: str = ""
+    fotos_urls: List[str] = field(default=list)
