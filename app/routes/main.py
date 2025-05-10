@@ -33,13 +33,14 @@ def listado_actividades():
             map(lambda a: parse_actividad_to_listado_data(db, a), actividades))
     return render_template("listado-actividades.html", actividades_data=actividades_data)
 
-# foto, actividad,comuna, actividad_tema
-
 
 @main_routes.get("/detalle-actividad/<int:actividad_id>")
 def detalle_actividad(actividad_id: int):
+    with next(get_db_session()) as db:
+        actividad = Actividad.get_actividad_by_id(db, actividad_id)
+        listado_data = parse_actividad_to_listado_data(db, actividad)
 
-    return render_template("detalle-actividad.html")
+    return render_template("detalle-actividad.html", listado_data=listado_data)
 
 
 @main_routes.get("/estadisticas")
