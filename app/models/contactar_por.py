@@ -6,14 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from sqlalchemy import String, Enum, ForeignKey
 
-
-class MedioContacto(enum.Enum):
-    WHATSAPP = "whatsapp"
-    TELEGRAM = "telegram"
-    X = "X"
-    INSTAGRAM = "instagram"
-    TIKTOK = "tiktok"
-    OTRA = "otra"
+from app.models.enums.medio_contacto import MedioContacto
 
 
 class ContactarPor(Base):

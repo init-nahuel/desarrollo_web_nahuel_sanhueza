@@ -10,18 +10,7 @@ from sqlalchemy import Enum, String, ForeignKey
 
 from typing import Optional
 
-
-class Tema(enum.Enum):
-    MUSICA = "música"
-    DEPORTE = "deporte"
-    CIENCIAS = "ciencias"
-    RELIGION = "religión"
-    POLITICA = "política"
-    TECNOLOGIA = "tecnología"
-    JUEGOS = "juegos"
-    BAILE = "baile"
-    COMIDA = "comida"
-    OTRO = "otro"
+from app.models.enums.tema import Tema
 
 
 class ActividadTema(Base):
