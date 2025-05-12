@@ -1,12 +1,13 @@
+from __future__ import annotations
+
 from app.models.base import Base
+from app.models.actividad import Actividad
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from sqlalchemy import String, ForeignKey, BigInteger
 
 from typing import List
-
-from app.models.actividad import Actividad
 
 
 class Comuna(Base):
@@ -18,5 +19,5 @@ class Comuna(Base):
     region_id: Mapped[int] = mapped_column(
         BigInteger, ForeignKey("region.id"), nullable=False)
 
-    actividades: Mapped[List["Actividad"]] = relationship(
+    actividades: Mapped[List[Actividad]] = relationship(
         "Actividad", back_populates="comuna")

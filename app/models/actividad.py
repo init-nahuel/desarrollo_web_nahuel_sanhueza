@@ -2,16 +2,18 @@ from __future__ import annotations
 
 import datetime
 
-
 from app.models.base import Base
-from app.models.comuna import Comuna
-from app.models.foto import Foto
 
 from sqlalchemy.orm import Mapped, mapped_column, Session, relationship
 
 from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 
-from typing import List, Tuple
+from typing import List, Tuple, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.comuna import Comuna
+    from app.models.foto import Foto
+    from app.models.contactar_por import ContactarPor
 
 
 class Actividad(Base):
@@ -35,6 +37,9 @@ class Actividad(Base):
         "Comuna", back_populates="actividades")
     fotos: Mapped[List["Foto"]] = relationship(
         "Foto", back_populates="actividad")
+    contactos: Mapped[List["ContactarPor"]] = relationship(
+        "ContactarPor", back_populates="actividad")
+    # temas: Mapped[List[]]
 
     @staticmethod
     def get_actividades(db: Session, limit: int = 10) -> List[Actividad]:
