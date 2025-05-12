@@ -7,22 +7,26 @@ from app.models.base import Base
 
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
-from sqlalchemy import String, DateTime, ForeignKey
+from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 
 class Actividad(Base):
     __tablename__ = "actividad"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    comuna_id: Mapped[int] = mapped_column(ForeignKey("comuna.id"))
+    id: Mapped[int] = mapped_column(
+        BigInteger, primary_key=True, autoincrement=True)
+    comuna_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("comuna.id"), nullable=False)
     sector: Mapped[str] = mapped_column(String(100))
-    nombre: Mapped[str] = mapped_column(String(200))
-    email: Mapped[str] = mapped_column(String(100))
+    nombre: Mapped[str] = mapped_column(String(200), nullable=False)
+    email: Mapped[str] = mapped_column(String(100), nullable=False)
     celular: Mapped[str] = mapped_column(String(15))
-    dia_hora_inicio: Mapped[datetime.datetime] = mapped_column(DateTime())
-    dia_hora_termino: Mapped[datetime.datetime] = mapped_column(DateTime())
+    dia_hora_inicio: Mapped[datetime.datetime] = mapped_column(
+        DateTime(), nullable=False)
+    dia_hora_termino: Mapped[datetime.datetime] = mapped_column(
+        DateTime(), nullable=False)
     descripcion: Mapped[str] = mapped_column(String(500))
 
     @staticmethod
