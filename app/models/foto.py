@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from app.models.base import Base
+from app.models.actividad import Actividad
 
-from sqlalchemy.orm import Mapped, mapped_column, Session
+from sqlalchemy.orm import Mapped, mapped_column, Session, relationship
 
 from sqlalchemy import String, ForeignKey, BigInteger
 
@@ -20,6 +21,9 @@ class Foto(Base):
     nombre_archivo: Mapped[str] = mapped_column(String(300), nullable=False)
     actividad_id: Mapped[int] = mapped_column(
         BigInteger, ForeignKey("actividad.id"), nullable=False)
+
+    actividad: Mapped["Actividad"] = relationship(
+        "Actividad", back_populates="fotos")
 
     @staticmethod
     def get_fotos_by_actividad_id(db: Session, actividad_id) -> List[Optional[Foto]]:
