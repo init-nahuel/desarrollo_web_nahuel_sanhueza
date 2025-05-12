@@ -1,6 +1,7 @@
 from app.models.base import Base
+from app.models.actividad import Actividad
 
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from sqlalchemy import String, Enum, ForeignKey, BigInteger
 
@@ -17,3 +18,6 @@ class ContactarPor(Base):
     identificador: Mapped[str] = mapped_column(String(150), nullable=False)
     actividad_id: Mapped[int] = mapped_column(
         BigInteger, ForeignKey("actividad.id"), nullable=False)
+
+    actividad: Mapped[Actividad] = relationship(
+        "Actividad", back_populates="contactos")

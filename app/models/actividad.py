@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from app.models.comuna import Comuna
     from app.models.foto import Foto
     from app.models.contactar_por import ContactarPor
+    from app.models.actividad_tema import ActividadTema
 
 
 class Actividad(Base):
@@ -39,7 +40,8 @@ class Actividad(Base):
         "Foto", back_populates="actividad")
     contactos: Mapped[List["ContactarPor"]] = relationship(
         "ContactarPor", back_populates="actividad")
-    # temas: Mapped[List[]]
+    temas: Mapped[List["ActividadTema"]] = relationship(
+        "ActividadTema", back_populates="actividad")
 
     @staticmethod
     def get_actividades(db: Session, limit: int = 10) -> List[Actividad]:

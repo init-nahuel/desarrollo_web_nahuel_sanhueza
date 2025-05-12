@@ -1,16 +1,14 @@
 from __future__ import annotations
 
-import enum
-
 from app.models.base import Base
+from app.models.actividad import Actividad
+from app.models.enums.tema import Tema
 
-from sqlalchemy.orm import Mapped, mapped_column, Session
+from sqlalchemy.orm import Mapped, mapped_column, Session, relationship
 
 from sqlalchemy import Enum, String, ForeignKey, BigInteger
 
 from typing import Optional
-
-from app.models.enums.tema import Tema
 
 
 class ActividadTema(Base):
@@ -23,6 +21,9 @@ class ActividadTema(Base):
     glosa_otro: Mapped[str] = mapped_column(String(15), nullable=True)
     actividad_id: Mapped[int] = mapped_column(
         BigInteger, ForeignKey("actividad.id"), nullable=False)
+
+    actividad: Mapped[Actividad] = relationship(
+        "Actividad", back_populates="temas")
 
     @staticmethod
     def get_actividad_tema_by_actividad_id(db: Session, actividad_id: int) -> Optional[ActividadTema]:
