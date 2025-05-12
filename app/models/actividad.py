@@ -4,8 +4,9 @@ import datetime
 
 
 from app.models.base import Base
+from app.models.comuna import Comuna
 
-from sqlalchemy.orm import Mapped, mapped_column, Session
+from sqlalchemy.orm import Mapped, mapped_column, Session, relationship
 
 from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 
@@ -28,6 +29,9 @@ class Actividad(Base):
     dia_hora_termino: Mapped[datetime.datetime] = mapped_column(
         DateTime(), nullable=False)
     descripcion: Mapped[str] = mapped_column(String(500))
+
+    comuna: Mapped["Comuna"] = relationship(
+        "Comuna", back_populates="actividades")
 
     @staticmethod
     def get_actividades(db: Session, limit: int = 10) -> List[Actividad]:
