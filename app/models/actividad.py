@@ -9,7 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, Session
 
 from sqlalchemy import String, DateTime, ForeignKey
 
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 
 class Actividad(Base):
@@ -34,6 +34,10 @@ class Actividad(Base):
         return db.query(Actividad).filter_by(id=id).first()
 
     @staticmethod
-    def get_actividades_paginated(db: Session, page: int, items_per_page: int = 5) -> List[Actividad]:
+    def get_actividades_paginated(db: Session, page: int, items_per_page: int = 5) -> Tuple[List[Actividad], bool]:
         offset = (page - 1) * items_per_page
-        return db.query(Actividad).offset(offset).limit(items_per_page).all()
+        actividades = db.query(Actividad).offset(
+            offset).limit(items_per_page + 1).all()
+        remain = len(actividades) > items_per_page
+
+        return (actividades, remain)
