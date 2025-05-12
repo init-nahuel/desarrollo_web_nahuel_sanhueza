@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from app.models.base import Base
 from app.models.actividad import Actividad
+from app.models.region import Region
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -21,3 +22,4 @@ class Comuna(Base):
 
     actividades: Mapped[List[Actividad]] = relationship(
         "Actividad", back_populates="comuna")
+    region: Mapped[Region] = relationship("Region", back_populates="comunas")

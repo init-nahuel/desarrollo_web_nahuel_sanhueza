@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from app.models.base import Base
 from app.models.actividad import Actividad
 
@@ -19,5 +21,5 @@ class ContactarPor(Base):
     actividad_id: Mapped[int] = mapped_column(
         BigInteger, ForeignKey("actividad.id"), nullable=False)
 
-    actividad: Mapped[Actividad] = relationship(
+    actividad: Mapped["Actividad"] = relationship(
         "Actividad", back_populates="contactos")
