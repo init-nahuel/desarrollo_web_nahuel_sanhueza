@@ -3,6 +3,13 @@ from flask import Blueprint, render_template, request, url_for
 from app.db import get_db_session
 
 from app.models.actividad import Actividad
+from app.models.region import Region
+from app.models.comuna import Comuna
+
+from app.models.enums.medio_contacto import MedioContacto
+from app.models.enums.tema import Tema
+
+from typing import List
 
 from app.utilities.parsing import parse_actividades_for_home_page, parse_actividad_to_listado_data
 
@@ -21,7 +28,12 @@ def home():
 
 @main_routes.get("/crear-actividad")
 def crear_actividad():
-    return render_template("crear-actividad.html")
+    with next(get_db_session()) as db:
+        regiones: List[Region] = Region.get_all_entities(db)
+        comunas: List[Comuna] = Comuna.get_all_entities(db)
+        temas = Tema.__members__
+        medio_contactos = MedioContacto.__members__
+    return render_template("crear-actividad.html", regiones=regiones, comunas=comunas, temas=temas, medio_contactos=medio_contactos)
 
 
 @main_routes.get("/listado-actividades")
