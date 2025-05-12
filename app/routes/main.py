@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, url_for
 
 from app.db import get_db_session
 
@@ -26,12 +26,18 @@ def crear_actividad():
 
 @main_routes.get("/listado-actividades")
 def listado_actividades():
-    page = request.args.get("page", 1)
+    page = int(request.args.get("page", 1))
     with next(get_db_session()) as db:
-        actividades = Actividad.get_actividades_paginated(db, page)
+        actividades, remain = Actividad.get_actividades_paginated(db, page)
         actividades_data = list(
             map(lambda a: parse_actividad_to_listado_data(db, a), actividades))
-    return render_template("listado-actividades.html", actividades_data=actividades_data)
+
+        prev_url = url_for("main.listado_actividades",
+                           page=page-1) if page > 1 else None
+        next_url = url_for("main.listado_actividades",
+                           page=page+1) if remain else None
+
+    return render_template("listado-actividades.html", actividades_data=actividades_data, prev_url=prev_url, next_url=next_url)
 
 
 @main_routes.get("/detalle-actividad/<int:actividad_id>")

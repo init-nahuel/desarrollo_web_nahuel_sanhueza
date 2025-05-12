@@ -57,6 +57,19 @@
         <h3 class="text-muted">No hay registro de actividades</h3>
     </div>
     {% endif %}
+    
+    <div class="d-flex justify-content-between mt-4">
+        {% if prev_url %}
+            <button class="btn btn-primary" onclick="window.location='{{ prev_url }}'">
+                Anterior
+            </button>
+        {% endif %}
+        {% if next_url %}
+        <button class="btn btn-primary" onclick="window.location='{{ next_url }}'">
+            Siguiente
+        </button>
+        {% endif %}
+    </div>
 
 </body>
 </html>
