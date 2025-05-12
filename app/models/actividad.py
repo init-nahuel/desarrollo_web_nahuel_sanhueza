@@ -30,10 +30,6 @@ class Actividad(Base):
         return db.query(Actividad).limit(limit).all()
 
     @staticmethod
-    def get_actividad_by_id(db: Session, id: int) -> Optional[Actividad]:
-        return db.query(Actividad).filter_by(id=id).first()
-
-    @staticmethod
     def get_actividades_paginated(db: Session, page: int, items_per_page: int = 5) -> Tuple[List[Actividad], bool]:
         offset = (page - 1) * items_per_page
         actividades = db.query(Actividad).offset(

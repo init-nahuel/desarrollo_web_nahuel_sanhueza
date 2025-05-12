@@ -55,7 +55,7 @@ def listado_actividades():
 @main_routes.get("/detalle-actividad/<int:actividad_id>")
 def detalle_actividad(actividad_id: int):
     with next(get_db_session()) as db:
-        actividad = Actividad.get_actividad_by_id(db, actividad_id)
+        actividad = Actividad.get_entitie_by_id(db, actividad_id)
         listado_data = parse_actividad_to_listado_data(db, actividad)
 
     return render_template("detalle-actividad.html", listado_data=listado_data)

@@ -27,7 +27,7 @@ def parse_actividades_for_home_page(db: Session, actividades: List[Actividad]) -
     data_dict = []
 
     for actividad in actividades:
-        comuna = Comuna.get_comuna_by_id(db, actividad.comuna_id)
+        comuna = Comuna.get_entitie_by_id(db, actividad.comuna_id)
         tema = ActividadTema.get_actividad_tema_by_actividad_id(
             db, actividad.id)
 
@@ -61,7 +61,7 @@ def parse_actividad_to_listado_data(db: Session, actividad: Actividad) -> Listad
         ListadoData: Instancia ListadoData con la informacion de la actividad
     """
 
-    comuna = Comuna.get_comuna_by_id(db, actividad.comuna_id)
+    comuna = Comuna.get_entitie_by_id(db, actividad.comuna_id)
     actividad_tema: ActividadTema = ActividadTema.get_actividad_tema_by_actividad_id(
         db, actividad.id)
 
