@@ -19,13 +19,18 @@ def home():
 
 
 @main_routes.get("/crear-actividad")
-def crear_actividad():
+def get_crear_actividad():
     with next(get_db_session()) as db:
         regiones: List[Region] = Region.get_all_entities(db)
         comunas: List[Comuna] = Comuna.get_all_entities(db)
         temas = Tema.__members__
         medio_contactos = MedioContacto.__members__
     return render_template("crear-actividad.html", regiones=regiones, comunas=comunas, temas=temas, medio_contactos=medio_contactos)
+
+
+@main_routes.post("/crear-actividad")
+def post_crear_actividad():
+    pass
 
 
 @main_routes.get("/listado-actividades")
