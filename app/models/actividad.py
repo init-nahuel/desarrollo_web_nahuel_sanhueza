@@ -4,7 +4,7 @@ import datetime
 
 from app.models import Base
 
-from sqlalchemy.orm import Mapped, mapped_column, Session, relationship
+from sqlalchemy.orm import Mapped, mapped_column, Session, relationship, joinedload
 
 from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 
@@ -42,7 +42,7 @@ class Actividad(Base):
 
     @staticmethod
     def get_actividades(db: Session, limit: int = 10) -> List[Actividad]:
-        return db.query(Actividad).limit(limit).all()
+        return db.query(Actividad).options(joinedload(Actividad.comuna), joinedload(Actividad.temas), joinedload(Actividad.fotos)).limit(limit).all()
 
     @staticmethod
     def get_actividades_paginated(db: Session, page: int, items_per_page: int = 5) -> Tuple[List[Actividad], bool]:

@@ -10,7 +10,7 @@
     <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills mb-4 mt-1">
             <li class="nav-item">
-              <a class="nav-link active" href="./home.html">Inicio</a>
+              <a class="nav-link active" href="{{ url_for('main.home') }}">Inicio</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('main.crear_actividad') }}">Agregar actividad</a>
@@ -53,12 +53,12 @@
             <tbody>
                 {% for actividad in actividades %}
                 <tr>
-                    <td>{{ actividad.inicio }}</td>
-                    <td>{{ actividad.termino }}</td>
-                    <td>{{ actividad.comuna }}</td>
+                    <td>{{ actividad.dia_hora_inicio }}</td>
+                    <td>{{ actividad.dia_hora_termino }}</td>
+                    <td>{{ actividad.comuna.nombre }}</td>
                     <td>{{ actividad.sector }}</td>
-                    <td>{{ actividad.tema }}</td>
-                    <td><img src="{{ actividad.url_foto }}" alt="cat boxing" width="150"></td>
+                    <td>{{ actividad.temas.0.tema.value }}</td>
+                    <td><img src="{{ url_for('static', filename='img/' ~ actividad.fotos.0.nombre_archivo) }}" alt="cat boxing" width="150"></td>
                 </tr>
                 {% endfor %}
         </table>
