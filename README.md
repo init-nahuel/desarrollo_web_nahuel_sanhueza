@@ -28,4 +28,6 @@ desarrollo_web_nahuel_sanhueza
 
 ## Comentarios
 
-Existen varios metodos y funciones que no poseen documentacion dado que el mismo nombre de este es descriptivo respecto a lo que realiza, un ejemplo es el metodo `get_entitie_by_id` que existe en `base.py`, como dice su nombre este metodo obtiene una entidad por su id.
+- Existen varios metodos y funciones que no poseen documentacion dado que el mismo nombre de este es descriptivo respecto a lo que realiza, un ejemplo es el metodo `get_entitie_by_id` que existe en `base.py`, como dice su nombre este metodo obtiene una entidad por su id.
+
+- Al comienzo utilizaba una estructura de datos especifica para enviar los datos hacia el front-end, sin embargo despues conoci `joinedload` para cargar los datos de las entidades relacionadas a una entidad para asi solo enviar la entidad especificaba utilizada en la pagina deseada.
