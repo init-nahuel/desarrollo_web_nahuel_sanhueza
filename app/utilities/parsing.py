@@ -1,9 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.models.actividad import Actividad
-from app.models.actividad_tema import ActividadTema
-from app.models.comuna import Comuna
-from app.models.foto import Foto
+from app.models import Actividad, ActividadTema, Comuna, Foto
 
 from app.models.data_models.listado_data import ListadoData
 

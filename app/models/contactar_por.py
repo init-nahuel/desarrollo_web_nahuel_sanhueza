@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-from app.models.base import Base
-from app.models.actividad import Actividad
+from app.models import Base, Actividad, MedioContacto
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from sqlalchemy import String, Enum, ForeignKey, BigInteger
-
-from app.models.enums.medio_contacto import MedioContacto
 
 
 class ContactarPor(Base):

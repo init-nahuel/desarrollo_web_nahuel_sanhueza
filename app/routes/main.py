@@ -2,12 +2,7 @@ from flask import Blueprint, render_template, request, url_for
 
 from app.db import get_db_session
 
-from app.models.actividad import Actividad
-from app.models.region import Region
-from app.models.comuna import Comuna
-
-from app.models.enums.medio_contacto import MedioContacto
-from app.models.enums.tema import Tema
+from app.models import Actividad, Comuna, Region, MedioContacto, Tema
 
 from typing import List
 

@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from app.models.base import Base
-from app.models.actividad import Actividad
-from app.models.region import Region
+from app.models import Base, Actividad, Region
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

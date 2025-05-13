@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from app.models.base import Base
-
+from app.models import Base
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -10,7 +9,7 @@ from sqlalchemy import String, BigInteger
 from typing import List, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from app.models.comuna import Comuna
+    from app.models import Comuna
 
 
 class Region(Base):

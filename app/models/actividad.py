@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 
-from app.models.base import Base
+from app.models import Base
 
 from sqlalchemy.orm import Mapped, mapped_column, Session, relationship
 
@@ -11,10 +11,7 @@ from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 from typing import List, Tuple, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from app.models.comuna import Comuna
-    from app.models.foto import Foto
-    from app.models.contactar_por import ContactarPor
-    from app.models.actividad_tema import ActividadTema
+    from app.models import Comuna, Foto, ContactarPor, ActividadTema
 
 
 class Actividad(Base):

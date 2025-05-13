@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from app.models.base import Base
-from app.models.actividad import Actividad
-from app.models.enums.tema import Tema
+from app.models import Base, Actividad, Tema
 
 from sqlalchemy.orm import Mapped, mapped_column, Session, relationship
 
