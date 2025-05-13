@@ -24,7 +24,7 @@
         </ul>
         </ul>
     </header>
-    {% if actividades_data %}
+    {% if actividades %}
     <div class="table-responsive w-auto mx-auto">
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
@@ -39,15 +39,15 @@
                 </tr>
             </thead>
             <tbody>
-                    {% for actividad_data in actividades_data %}
-                    <tr onclick="window.location = '{{ actividad_data.url }}' ">
-                        <td>{{ actividad_data.inicio }}</td>
-                        <td>{{ actividad_data.termino }}</td>
-                        <td>{{ actividad_data.comuna }}</td>
-                        <td>{{ actividad_data.sector }}</td>
-                        <td>{{ actividad_data.tema }}</td>
-                        <td>{{ actividad_data.nombre_organizador }}</td>
-                        <td>{{ actividad_data.total_fotos }}</td>
+                    {% for actividad in actividades %}
+                    <tr onclick="window.location = '{{ url_for('main.detalle_actividad', actividad_id=actividad.id) }}' ">
+                        <td>{{ actividad.dia_hora_inicio }}</td>
+                        <td>{{ actividad.dia_hora_termino }}</td>
+                        <td>{{ actividad.comuna.nombre }}</td>
+                        <td>{{ actividad.sector }}</td>
+                        <td>{{ actividad.temas.0.tema.value }}</td>
+                        <td>{{ actividad.nombre }}</td>
+                        <td>{{ actividad.fotos|length }}</td>
                     </tr>
                     {% endfor %}
         </table>

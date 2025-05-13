@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, Session, relationship, joinedl
 
 from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 
-from typing import List, Tuple, TYPE_CHECKING
+from typing import List, Tuple, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models import Comuna, Foto, ContactarPor, ActividadTema
@@ -47,8 +47,12 @@ class Actividad(Base):
     @staticmethod
     def get_actividades_paginated(db: Session, page: int, items_per_page: int = 5) -> Tuple[List[Actividad], bool]:
         offset = (page - 1) * items_per_page
-        actividades = db.query(Actividad).offset(
-            offset).limit(items_per_page + 1).all()
+        actividades = db.query(Actividad).options(joinedload(Actividad.fotos), joinedload(
+            Actividad.comuna), joinedload(Actividad.temas)).offset(offset).limit(items_per_page + 1).all()
         remain = len(actividades) > items_per_page
 
         return (actividades, remain)
+
+    @staticmethod
+    def get_actividad_by_id(db: Session, id: int) -> Optional[Actividad]:
+        return db.query(Actividad).filter_by(id=id).options(joinedload(Actividad.fotos), joinedload(Actividad.comuna), joinedload(Actividad.temas)).first()
