@@ -157,7 +157,7 @@ const handleConfirmation = (event) => {
 const submitFormButton = document.getElementById("agregarActividad");
 const confirmationButton = document.getElementById("agregarActividadSubmit");
 const denyButton = document.getElementById("denyAgregarActividadSubmit");
-const volverButton = document.getElementById("volverInicioButton");
+const formActividad = document.getElementById("product-form");
 
 // Event Listener
 
@@ -166,7 +166,4 @@ confirmationButton.addEventListener("click", handleConfirmation);
 denyButton.addEventListener("click", () => {
   const divConfirmation = document.getElementById("confirmarAgregarActividad");
   showConfirmation(submitFormButton, divConfirmation, false);
-});
-volverButton.addEventListener("click", () => {
-  window.location.href = "home.html";
 });
