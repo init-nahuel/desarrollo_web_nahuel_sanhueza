@@ -1,3 +1,5 @@
+import markupsafe
+
 from flask import Blueprint, render_template, request, url_for
 
 from app.db import get_db_session
@@ -5,6 +7,8 @@ from app.db import get_db_session
 from app.models import Actividad, Comuna, Region, MedioContacto, Tema
 
 from typing import List
+
+from app.utils import validate_actividad_data
 
 main_routes = Blueprint("main", __name__)
 
@@ -30,7 +34,38 @@ def get_crear_actividad():
 
 @main_routes.post("/crear-actividad")
 def post_crear_actividad():
-    pass
+    region = markupsafe.escape(request.form.get("selectRegion", ""))
+    comuna = markupsafe.escape(request.form.get("selectComuna", ""))
+    sector = markupsafe.escape(request.form.get("sector", ""))
+    nombre_organizador = markupsafe.escape(
+        request.form.get("nombreOrganizador", ""))
+    email_organizador = markupsafe.escape(
+        request.form.get("emailOrganizador", ""))
+    telefono_organizador = markupsafe.escape(
+        request.form.get("telefonoOrganizador", ""))
+    medio_contacto = markupsafe.escape(
+        request.form.get("selectContactarPor", ""))
+    identificador_contacto = markupsafe.escape(
+        request.form.get("inputContactarPor", ""))
+    dio_hora_inicio = markupsafe.escape(request.form.get("diaHoraInicio"))
+    dia_hora_termino = markupsafe.escape(request.form.get("diaHoraTermino"))
+    descripcion = markupsafe.escape(request.form.get("descripcion", ""))
+    tema = markupsafe.escape(request.form.get("selectTema", ""))
+    tema_otro = markupsafe.escape(request.form.get("tema", ""))
+    fotos = request.files.get("inputFotos")
+
+    validation, msg_error = validate_actividad_data(region, comuna, sector, nombre_organizador, email_organizador, telefono_organizador,
+                                                    medio_contacto, identificador_contacto, dio_hora_inicio, dia_hora_termino, tema, tema_otro, fotos)
+
+    if validation:
+        pass
+    else:
+        with next(get_db_session()) as db:
+            regiones: List[Region] = Region.get_all_entities(db)
+            comunas: List[Comuna] = Comuna.get_all_entities(db)
+            temas = Tema.__members__
+            medio_contactos = MedioContacto.__members__
+        return render_template("crear-actividad.html", regiones=regiones, comunas=comunas, temas=temas, medio_contactos=medio_contactos, msg_error=msg_error)
 
 
 @main_routes.get("/listado-actividades")
