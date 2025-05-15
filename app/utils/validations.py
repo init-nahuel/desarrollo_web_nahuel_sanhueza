@@ -1,12 +1,20 @@
 import re
 import datetime
+import filetype
 
 from app.db import get_db_session
 
 from app.models import Region, Comuna, MedioContacto, Tema
 
+from typing import List, ByteString
+
+from werkzeug.datastructures import FileStorage
+
 PHONE_NUMBER_PATTERN = re.compile(r'^\+569\d{8}$')
 EMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+ALLOWED_MIMETYPES = {"image/jpeg", "image/png", "image/gif"}
 
 
 def validate_min_len_txt(txt: str, limit: int) -> bool:
@@ -43,13 +51,12 @@ def validate_phone_number(phone_number: str) -> bool:
     return re.fullmatch(PHONE_NUMBER_PATTERN, phone_number) is not None
 
 
-def validate_contactar_por(value: str, identificador: str) -> bool:
+def validate_medio_contacto(value: str, identificador: str) -> bool:
     return value in MedioContacto._member_names_ or (value in MedioContacto._member_names_ and validate_max_len_txt(identificador, 50) and validate_min_len_txt(identificador, 4))
 
 
-# TODO: Verificar formato corrector
 def validate_fecha_inicio(fecha_inicio: datetime.datetime) -> bool:
-    return fecha_inicio is not None and fecha_inicio > datetime.datetime.now()
+    return isinstance(fecha_inicio, datetime.datetime) and fecha_inicio > datetime.datetime.now()
 
 
 def validate_fecha_termino(fecha_termino: datetime.datetime) -> bool:
@@ -60,5 +67,13 @@ def validate_tema(tema: str, glosa_otro: str) -> bool:
     return tema in Tema._member_names_ or (tema in Tema._member_names_ and validate_max_len_txt(glosa_otro, 15) and validate_min_len_txt(glosa_otro, 3))
 
 
-def validate_fotos():
-    pass
+def validate_fotos(fotos_files: List[FileStorage]) -> bool:
+
+    for file in fotos_files:
+        if not file or not file.filename:
+            return False
+        ftype_guess = filetype.guess(file)
+        if ftype_guess.mime not in ALLOWED_MIMETYPES or ftype_guess.extension not in ALLOWED_EXTENSIONS:
+            return False
+
+    return fotos_files >= 1 and fotos_files <= 5
