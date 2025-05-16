@@ -45,9 +45,17 @@
                         <td>{{ actividad.dia_hora_termino }}</td>
                         <td>{{ actividad.comuna.nombre }}</td>
                         <td>{{ actividad.sector }}</td>
-                        <td>{{ actividad.temas.0.tema.value }}</td>
+                        <td>
+                            {% if actividad.temas and actividad.temas.0 %}
+                                {{ actividad.temas.0.tema.value }}
+                            {% endif %}
+                        </td>
                         <td>{{ actividad.nombre }}</td>
-                        <td>{{ actividad.fotos|length }}</td>
+                        <td>
+                            {% if actividad.fotos %}
+                                {{ actividad.fotos|length }}
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
         </table>

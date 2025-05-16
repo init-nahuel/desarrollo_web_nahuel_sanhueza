@@ -52,14 +52,24 @@
             </thead>
             <tbody>
                 {% for actividad in actividades %}
+                {% if actividad %}
                 <tr>
                     <td>{{ actividad.dia_hora_inicio }}</td>
                     <td>{{ actividad.dia_hora_termino }}</td>
                     <td>{{ actividad.comuna.nombre }}</td>
                     <td>{{ actividad.sector }}</td>
-                    <td>{{ actividad.temas.0.tema.value }}</td>
-                    <td><img src="{{ url_for('static', filename='img/' ~ actividad.fotos.0.nombre_archivo) }}" alt="cat boxing" width="150"></td>
+                    <td>
+                        {% if actividad.temas and actividad.temas.0 %}
+                            {{ actividad.temas.0.tema.value }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if actividad.fotos and actividad.fotos.0 %}
+                        <img src="{{ url_for('static', filename='img/' ~ actividad.fotos.0.nombre_archivo) }}" alt="cat boxing" width="150">
+                        {% endif %}
+                    </td>
                 </tr>
+                {% endif %}
                 {% endfor %}
         </table>
     </div>

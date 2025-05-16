@@ -31,7 +31,7 @@
         <div class="product-info">
             <h1>Información del producto</h1>
             <div class="product-info-container">
-                {% if actividad.fotos.0 %}
+                {% if actividad.fotos and actividad.fotos.0 %}
                 <div class="product-info-image mb-2">
                     <img src="{{ url_for('static', filename='img/' ~ actividad.fotos.0.nombre_archivo) }}" data-bs-toggle="modal" data-bs-target="#exampleModal" width="320" height="240" alt="Cats boxing">
                 </div>
@@ -45,7 +45,9 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-0">
-                            <img src="{{ url_for('static', filename='img/' ~ actividad.fotos.0.nombre_archivo) }}" style="width: 800px; height: 600px; object-fit: contain;" alt="Cats boxing">
+                            {% if actividad.fotos and actividad.fotos.0 %}
+                                <img src="{{ url_for('static', filename='img/' ~ actividad.fotos.0.nombre_archivo) }}" style="width: 800px; height: 600px; object-fit: contain;" alt="Cats boxing">
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -56,7 +58,11 @@
                     <p><strong>Termino:</strong>{{ actividad.dia_hora_termino }}</p>
                     <p><strong>Comuna:</strong>{{ actividad.comuna.nombre }}</p>
                     <p><strong>Sector:</strong>{{ actividad.sector }}</p>
-                    <p><strong>Tema:</strong>{{ actividad.temas.0.tema.value }}</p>
+                    <p><strong>Tema:</strong>
+                        {% if actividad.temas and actividad.temas.0 %}
+                            {{ actividad.temas.0.tema.value }}
+                        {% endif %}
+                    </p>
                     <p><strong>Nombre organizador:</strong>{{ actividad.nombre }}</p>
                 </div>
             </div>
