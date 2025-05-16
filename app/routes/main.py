@@ -1,15 +1,16 @@
 import markupsafe
 import datetime
 
-from flask import Blueprint, render_template, request, url_for
+from flask import Blueprint, render_template, request, url_for, redirect
 
 from app.db import get_db_session
 
-from app.models import Actividad, Comuna, Region, MedioContacto, Tema
+from app.models import *
 
 from typing import List
 
-from app.utils import validate_actividad_data
+from app.utils import validate_actividad_data, save_img
+
 
 main_routes = Blueprint("main", __name__)
 
@@ -61,7 +62,22 @@ def post_crear_actividad():
                                                     medio_contacto, identificador_contacto, dio_hora_inicio, dia_hora_termino, tema, tema_otro, fotos)
 
     if validation:
-        pass
+        with next(get_db_session()) as db:
+            comuna_entitie = Comuna.get_comuna_by_nombre(db, comuna)
+            actividad_entitie = Actividad.create_entity(db, comuna_id=comuna_entitie.id, sector=sector, nombre=nombre_organizador, email=email_organizador,
+                                                        celular=telefono_organizador, dia_hora_inicio=dio_hora_inicio, dia_hora_termino=dia_hora_termino, descripcion=descripcion)
+            tema_enum = Tema._member_map_[tema.upper()]
+            actividad_tema_entitie = ActividadTema.create_entity(
+                db, tema=tema_enum, glosa_otro=tema_otro, actividad_id=actividad_entitie.id)
+            medio_contacto_enum = MedioContacto._member_map_[
+                medio_contacto.upper()]
+            contactar_por_entitie = ContactarPor().create_entity(db, nombre=medio_contacto_enum,
+                                                                 identificador=identificador_contacto, actividad_id=actividad_entitie.id)
+            saved_files = list(map(save_img, fotos))
+            for filename, fileroute in saved_files:
+                Foto.create_entity(
+                    db, ruta_archivo=fileroute, nombre_archivo=filename, actividad_id=actividad_entitie.id)
+        return redirect(url_for("main.home"))
     else:
         with next(get_db_session()) as db:
             regiones: List[Region] = Region.get_all_entities(db)
