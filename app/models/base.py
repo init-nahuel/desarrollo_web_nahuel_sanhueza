@@ -18,3 +18,11 @@ class Base(DeclarativeBase):
     @classmethod
     def get_entitie_by_id(cls: Type[T], db: Session, id: int) -> Optional[T]:
         return db.query(cls).filter_by(id=id).first()
+
+    @classmethod
+    def create_entity(cls: Type[T], db: Session, **kwargs: Any) -> T:
+        entity = cls(**kwargs)
+        db.add(entity)
+        db.commit()
+        db.refresh(entity)
+        return entity
