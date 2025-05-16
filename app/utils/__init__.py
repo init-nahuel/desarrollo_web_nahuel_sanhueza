@@ -1,7 +1,14 @@
 import datetime
 import app.utils.validations as validations
+import hashlib
+import filetype
+import os
+
+from run import app
 
 from typing import Tuple, List
+
+from werkzeug.utils import secure_filename
 
 from werkzeug.datastructures import FileStorage
 
@@ -34,3 +41,23 @@ def validate_actividad_data(region: str, comuna: str, sector: str, nombre_organi
         return (False, "Fotos invalidas")
 
     return (True, "")
+
+
+def save_img(img: FileStorage) -> Tuple[str, str]:
+    """Guarda una imagen en el servidor
+
+    Args:
+        img (FileStorage): Imagen a guardar
+
+    Returns:
+        Tuple[str, str]: Nombre de la imagen y la ruta donde se guardo
+    """
+    _filename = hashlib.sha256(secure_filename(
+        img.filename).encode("utf-8")).hexdigest()
+    _extension = filetype.guess(img).extension
+    img_filename = f"{_filename}.{_extension}"
+
+    # 2. save img as a file
+    img.save(os.path.join(app.config["UPLOAD_FOLDER"], img_filename))
+
+    return (img_filename, app.config["UPLOAD_FOLDER"])
