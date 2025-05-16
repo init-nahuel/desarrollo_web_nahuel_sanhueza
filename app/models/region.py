@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from app.models import Base
 
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, Session
 
 from sqlalchemy import String, BigInteger
 
-from typing import List, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models import Comuna
@@ -21,3 +21,7 @@ class Region(Base):
 
     comunas: Mapped[List["Comuna"]] = relationship(
         "Comuna", back_populates="region")
+
+    @staticmethod
+    def get_region_by_name(db: Session, name: str) -> Optional[Region]:
+        return db.query(Region).filter_by(nombre=name).first()

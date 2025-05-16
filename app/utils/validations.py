@@ -30,9 +30,10 @@ def validate_region(region_name: str) -> bool:
         return db.query(Region).filter_by(nombre=region_name).first() is not None
 
 
-def validate_comuna(comuna_name: str) -> bool:
+def validate_comuna(region_id: int, comuna_name: str) -> bool:
     with next(get_db_session()) as db:
-        return db.query(Comuna).filter_by(nombre=comuna_name).first() is not None
+        comuna = db.query(Comuna).filter_by(nombre=comuna_name).first()
+        return comuna is not None and comuna.region_id == region_id
 
 
 def validate_sector(sector: str) -> bool:

@@ -12,6 +12,10 @@ from werkzeug.utils import secure_filename
 
 from werkzeug.datastructures import FileStorage
 
+from app.models import Region
+
+from app.db import get_db_session
+
 
 def validate_actividad_data(region: str, comuna: str, sector: str, nombre_organizador: str, email_organizador: str, telefono_organizador: str, medio_contacto: str, identificador: str, dia_hora_inicio: datetime.datetime, dia_hora_termino: datetime.datetime, tema: str, tema_otro: str, fotos: List[FileStorage]) -> Tuple[bool, str]:
     """Valida la informacion enviada en la peticion a la hora de crear una actividad
@@ -19,24 +23,36 @@ def validate_actividad_data(region: str, comuna: str, sector: str, nombre_organi
 
     if not validations.validate_region(region):
         return (False, "Valor de region invalido")
-    if not validations.validate_comuna(comuna):
-        return (False, "Valor de comuna invalido")
+
+    with next(get_db_session()) as db:
+        region_id = Region.get_region_by_name(db, region).id
+    if not validations.validate_comuna(region_id, comuna):
+        return (False, "La comuna no corresponde a la misma region")
+
     if not validations.validate_sector(sector):
         return (False, "Valor de sector invalido")
+
     if not validations.validate_nombre(nombre_organizador):
         return (False, "Valor de nombre organizador invalido")
+
     if not validations.validate_email(email_organizador):
         return (False, "Valor de email organizador invalido")
+
     if not validations.validate_phone_number(telefono_organizador):
         return (False, "Valor de telefono organizador invalido")
+
     if not validations.validate_medio_contacto(medio_contacto, identificador):
         return (False, "Valor de medio contacto invalido")
+
     if not validations.validate_fecha_inicio(dia_hora_inicio):
         return (False, "Valor de fecha inicio invalido")
+
     if not validations.validate_fecha_termino(dia_hora_termino):
         return (False, "Valor de fecha termino invalido")
+
     if not validations.validate_tema(tema, tema_otro):
         return (False, "Valor de tema de actividad invalido")
+
     if not validations.validate_fotos(fotos):
         return (False, "Fotos invalidas")
 
