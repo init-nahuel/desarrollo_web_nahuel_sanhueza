@@ -56,11 +56,11 @@ def validate_medio_contacto(value: str, identificador: str) -> bool:
 
 
 def validate_fecha_inicio(fecha_inicio: datetime.datetime) -> bool:
-    return isinstance(fecha_inicio, datetime.datetime) and fecha_inicio > datetime.datetime.now()
+    return isinstance(fecha_inicio, datetime.datetime) and fecha_inicio >= datetime.datetime.now()
 
 
 def validate_fecha_termino(fecha_termino: datetime.datetime) -> bool:
-    return fecha_termino is not None and fecha_termino > datetime.datetime.now()
+    return isinstance(fecha_termino, datetime.datetime) and fecha_termino >= datetime.datetime.now()
 
 
 def validate_tema(tema: str, glosa_otro: str) -> bool:
@@ -73,7 +73,10 @@ def validate_fotos(fotos_files: List[FileStorage]) -> bool:
         if not file or not file.filename:
             return False
         ftype_guess = filetype.guess(file)
+
+        print(
+            f"file type guess: {ftype_guess.mime} and extension {ftype_guess.extension}")
         if ftype_guess.mime not in ALLOWED_MIMETYPES or ftype_guess.extension not in ALLOWED_EXTENSIONS:
             return False
 
-    return fotos_files >= 1 and fotos_files <= 5
+    return len(fotos_files) >= 1 and len(fotos_files) <= 5
