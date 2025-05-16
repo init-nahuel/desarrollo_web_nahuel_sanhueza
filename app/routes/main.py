@@ -28,7 +28,9 @@ def home():
 def get_crear_actividad():
     with next(get_db_session()) as db:
         regiones: List[Region] = Region.get_all_entities(db)
+        regiones = sorted(regiones, key=lambda r: r.nombre)
         comunas: List[Comuna] = Comuna.get_all_entities(db)
+        comunas = sorted(comunas, key=lambda c: c.nombre)
         temas = Tema.__members__
         medio_contactos = MedioContacto.__members__
     return render_template("crear-actividad.html", regiones=regiones, comunas=comunas, temas=temas, medio_contactos=medio_contactos)
