@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from app.models import Base, Actividad, Region
 
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, Session
 
 from sqlalchemy import String, ForeignKey, BigInteger
 
-from typing import List
+from typing import List, Optional
 
 
 class Comuna(Base):
@@ -21,3 +21,7 @@ class Comuna(Base):
     actividades: Mapped[List[Actividad]] = relationship(
         "Actividad", back_populates="comuna")
     region: Mapped[Region] = relationship("Region", back_populates="comunas")
+
+    @staticmethod
+    def get_comuna_by_nombre(db: Session, nombre: str) -> Optional[Comuna]:
+        return db.query(Comuna).filter_by(nombre=nombre).first()
