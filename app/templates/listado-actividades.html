@@ -47,8 +47,11 @@
                         <td>{{ actividad.sector }}</td>
                         <td>
                             {% if actividad.temas and actividad.temas.0 %}
-                                {{ actividad.temas.0.tema.value }}
+                            {{actividad.temas.0.tema.value}}
+                            {% if actividad.temas.0.glosa_otro %}
+                               ,{{actividad.temas.0.glosa_otro}}
                             {% endif %}
+                        {% endif %}
                         </td>
                         <td>{{ actividad.nombre }}</td>
                         <td>
