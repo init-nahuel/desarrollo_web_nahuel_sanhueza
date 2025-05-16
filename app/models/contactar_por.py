@@ -13,7 +13,7 @@ class ContactarPor(Base):
     id: Mapped[int] = mapped_column(
         BigInteger, primary_key=True, autoincrement=True)
     nombre: Mapped[MedioContacto] = mapped_column(
-        Enum(MedioContacto), nullable=False)
+        Enum(MedioContacto, values_callable=lambda obj: [e.value for e in obj]), nullable=False)
     identificador: Mapped[str] = mapped_column(String(150), nullable=False)
     actividad_id: Mapped[int] = mapped_column(
         BigInteger, ForeignKey("actividad.id"), nullable=False)
