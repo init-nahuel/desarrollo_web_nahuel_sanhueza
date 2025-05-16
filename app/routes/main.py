@@ -1,4 +1,5 @@
 import markupsafe
+import datetime
 
 from flask import Blueprint, render_template, request, url_for
 
@@ -34,25 +35,27 @@ def get_crear_actividad():
 
 @main_routes.post("/crear-actividad")
 def post_crear_actividad():
-    region = markupsafe.escape(request.form.get("selectRegion", ""))
-    comuna = markupsafe.escape(request.form.get("selectComuna", ""))
-    sector = markupsafe.escape(request.form.get("sector", ""))
-    nombre_organizador = markupsafe.escape(
-        request.form.get("nombreOrganizador", ""))
-    email_organizador = markupsafe.escape(
-        request.form.get("emailOrganizador", ""))
-    telefono_organizador = markupsafe.escape(
-        request.form.get("telefonoOrganizador", ""))
-    medio_contacto = markupsafe.escape(
-        request.form.get("selectContactarPor", ""))
-    identificador_contacto = markupsafe.escape(
-        request.form.get("inputContactarPor", ""))
-    dio_hora_inicio = markupsafe.escape(request.form.get("diaHoraInicio"))
-    dia_hora_termino = markupsafe.escape(request.form.get("diaHoraTermino"))
-    descripcion = markupsafe.escape(request.form.get("descripcion", ""))
-    tema = markupsafe.escape(request.form.get("selectTema", ""))
-    tema_otro = markupsafe.escape(request.form.get("tema", ""))
-    fotos = request.files.get("inputFotos")
+    region = str(markupsafe.escape(request.form.get("selectRegion", "")))
+    comuna = str(markupsafe.escape(request.form.get("selectComuna", "")))
+    sector = str(markupsafe.escape(request.form.get("sector", "")))
+    nombre_organizador = str(markupsafe.escape(
+        request.form.get("nombreOrganizador", "")))
+    email_organizador = str(markupsafe.escape(
+        request.form.get("emailOrganizador", "")))
+    telefono_organizador = str(markupsafe.escape(
+        request.form.get("telefonoOrganizador", "")))
+    medio_contacto = str(markupsafe.escape(
+        request.form.get("selectContactarPor", "")))
+    identificador_contacto = str(markupsafe.escape(
+        request.form.get("inputContactarPor", "")))
+    dio_hora_inicio = datetime.datetime.strptime(str(markupsafe.escape(
+        request.form.get("diaHoraInicio", ""))), "%Y-%m-%dT%H:%M")
+    dia_hora_termino = datetime.datetime.strptime(str(markupsafe.escape(
+        request.form.get("diaHoraTermino", ""))), "%Y-%m-%dT%H:%M")
+    descripcion = str(markupsafe.escape(request.form.get("descripcion", "")))
+    tema = str(markupsafe.escape(request.form.get("selectTema", "")))
+    tema_otro = str(markupsafe.escape(request.form.get("tema", "")))
+    fotos = request.files.getlist("inputFotos")
 
     validation, msg_error = validate_actividad_data(region, comuna, sector, nombre_organizador, email_organizador, telefono_organizador,
                                                     medio_contacto, identificador_contacto, dio_hora_inicio, dia_hora_termino, tema, tema_otro, fotos)
