@@ -4,7 +4,7 @@ import hashlib
 import filetype
 import os
 
-from run import app
+from flask import current_app as app
 
 from typing import Tuple, List
 
