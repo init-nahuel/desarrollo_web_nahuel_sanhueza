@@ -67,6 +67,9 @@
                         {% endif %}
                     </p>
                     <p><strong>Nombre organizador:</strong>{{ actividad.nombre }}</p>
+                    {% if actividad.contactos.0 %}
+                    <p><strong>Contacto ({{ actividad.contactos.0.nombre.value }}):</strong>{{ actividad.contactos.0.identificador }}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

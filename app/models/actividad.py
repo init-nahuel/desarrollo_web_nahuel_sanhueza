@@ -55,4 +55,4 @@ class Actividad(Base):
 
     @staticmethod
     def get_actividad_by_id(db: Session, id: int) -> Optional[Actividad]:
-        return db.query(Actividad).filter_by(id=id).options(joinedload(Actividad.fotos), joinedload(Actividad.comuna), joinedload(Actividad.temas)).first()
+        return db.query(Actividad).filter_by(id=id).options(joinedload(Actividad.fotos), joinedload(Actividad.comuna), joinedload(Actividad.temas), joinedload(Actividad.contactos)).first()
