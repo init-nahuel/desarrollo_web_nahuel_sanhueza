@@ -77,7 +77,7 @@
                 </div>
                 <div class="col">
                     <div class="mb-3" hidden id="divContactarPor">
-                        <input type="text" class="form-control" id="inputContactarPor" name="inputContactarPor" placeholder="Contactar por">
+                        <input type="text" class="form-control" id="inputContactarPor" name="inputContactarPor" placeholder="Identificador">
                     </div>
                 </div>
             </div>
@@ -142,7 +142,7 @@
         selectContactarPor.addEventListener("change", () => {
         const contactarPorValue = selectContactarPor.value;
 
-        if (contactarPorValue === "OTRA") {
+        if (contactarPorValue != "") {
             divContactarPor.hidden = false;
         } else {
             divContactarPor.hidden = true;
