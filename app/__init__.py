@@ -1,5 +1,5 @@
 from flask import Flask
-from app.routes import main
+from app.routes import main, estadisticas
 
 UPLOAD_FOLDER = 'static/img'
 
@@ -8,3 +8,4 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.register_blueprint(main.main_routes)
+app.register_blueprint(estadisticas.estadisticas_routes)
