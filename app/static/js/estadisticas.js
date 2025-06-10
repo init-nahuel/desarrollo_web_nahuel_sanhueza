@@ -1,28 +1,42 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const chart = Highcharts.chart("container", {
-    chart: {
-      type: "bar",
-    },
+Highcharts.chart("lineChartContainer", {
+  title: {
+    text: "Cantidad de actividades por dia",
+  },
+  xAxis: {
+    categories: [],
+  },
+  yAxis: {
     title: {
-      text: "Fruit Consumption",
+      text: "Cantidad",
     },
-    xAxis: {
-      categories: ["Apples", "Bananas", "Oranges"],
+  },
+  series: [
+    {
+      name: "Actividades",
+      data: [],
     },
-    yAxis: {
-      title: {
-        text: "Fruit eaten",
-      },
-    },
-    series: [
-      {
-        name: "Jane",
-        data: [1, 0, 4],
-      },
-      {
-        name: "John",
-        data: [5, 7, 3],
-      },
-    ],
-  });
+  ],
 });
+
+fetch("http://127.0.0.1:5000/estadisticas/cant_actividades_dia")
+  .then((response) => response.json())
+  .then((data) => {
+    days = data.map((item) => Object.keys(item)[0]);
+    values = data.map((item) => Object.values(item)[0]);
+
+    const chart = Highcharts.charts.find(
+      (chart) => chart && chart.renderTo.id === "lineChartContainer"
+    );
+
+    chart.update({
+      xAxis: {
+        categories: days,
+      },
+      series: [
+        {
+          data: values,
+        },
+      ],
+    });
+  })
+  .catch((e) => console.error("Error:", e));
