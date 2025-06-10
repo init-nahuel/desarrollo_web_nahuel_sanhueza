@@ -19,7 +19,7 @@ main_routes = Blueprint("main", __name__)
 def home():
     actividades = []
     with next(get_db_session()) as db:
-        actividades = Actividad.get_actividades(db)
+        actividades = Actividad.get_actividades(db, limit=5)
 
     return render_template("home.html", actividades=actividades)
 
