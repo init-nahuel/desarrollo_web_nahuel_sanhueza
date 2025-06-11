@@ -40,3 +40,47 @@ fetch("http://127.0.0.1:5000/estadisticas/cant_actividades_dia")
     });
   })
   .catch((e) => console.error("Error:", e));
+
+Highcharts.chart("pieChartContainer", {
+  chart: {
+    type: "pie",
+  },
+  title: {
+    text: "Total de actividades por tipo",
+  },
+  series: [
+    {
+      name: "Total",
+      data: [],
+      size: "60%",
+      innerSize: "30%",
+      showInLegend: true,
+      dataLabels: {
+        enabled: true,
+        format: "{point.name}: {point.y}",
+      },
+    },
+  ],
+});
+
+fetch("http://127.0.0.1:5000/estadisticas/total_actividades_tipo")
+  .then((response) => response.json())
+  .then((data) => {
+    parsedData = Object.entries(data).map(([key, value]) => ({
+      name: key,
+      y: value,
+    }));
+
+    const chart = Highcharts.charts.find(
+      (chart) => chart && chart.renderTo.id === "pieChartContainer"
+    );
+
+    chart.update({
+      series: [
+        {
+          data: parsedData,
+        },
+      ],
+    });
+  })
+  .catch((e) => console.error("Error", e));
