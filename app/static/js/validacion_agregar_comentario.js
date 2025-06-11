@@ -1,3 +1,16 @@
+const showSuccessStatusMsg = () => {
+  const successMessage = document.createElement("span");
+  successMessage.id = "successMessage";
+  successMessage.innerText = "Formulario enviado correctamente.";
+  successMessage.style = "color: green; margin-left: 10px;";
+  submitButton = document.getElementById("submitButtonComentario");
+  submitButton.parentElement.appendChild(successMessage);
+
+  setTimeout(() => {
+    removeAlert("successMessage");
+  }, 3000);
+};
+
 const removeAlert = (elementId) => {
   const alertElement = document.getElementById(elementId);
   if (alertElement) {
@@ -75,8 +88,9 @@ const enviarComentario = async (event) => {
 
     if (response.ok) {
       const result = await response.json();
-      alert("Comentario enviado exitosamente.");
+      //   alert("Comentario enviado exitosamente.");
       form.reset();
+      showSuccessStatusMsg();
     } else {
       console.error("Error al enviar el comentario:", response.statusText);
       alert("Hubo un error al enviar el comentario.", response.statusText);
