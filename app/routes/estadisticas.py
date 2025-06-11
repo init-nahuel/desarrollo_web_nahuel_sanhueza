@@ -11,7 +11,7 @@ estadisticas_routes = Blueprint(
     "estadisticas", __name__, url_prefix="/estadisticas")
 
 
-@estadisticas_routes.get("/cant_actividades_dia")
+@estadisticas_routes.get("/actividades_dia")
 def get_cant_actividades_por_dia():
     actividades = []
     with next(get_db_session()) as db:
@@ -26,7 +26,7 @@ def get_cant_actividades_por_dia():
     return jsonify(data)
 
 
-@estadisticas_routes.get("/total_actividades_tipo")
+@estadisticas_routes.get("/actividades_tipo")
 def get_actividades_por_tipo():
     actividades = []
     with next(get_db_session()) as db:

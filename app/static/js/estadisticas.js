@@ -18,7 +18,7 @@ Highcharts.chart("lineChartContainer", {
   ],
 });
 
-fetch("http://127.0.0.1:5000/estadisticas/cant_actividades_dia")
+fetch("http://127.0.0.1:5000/estadisticas/actividades_dia")
   .then((response) => response.json())
   .then((data) => {
     days = data.map((item) => Object.keys(item)[0]);
@@ -63,7 +63,7 @@ Highcharts.chart("pieChartContainer", {
   ],
 });
 
-fetch("http://127.0.0.1:5000/estadisticas/total_actividades_tipo")
+fetch("http://127.0.0.1:5000/estadisticas/actividades_tipo")
   .then((response) => response.json())
   .then((data) => {
     parsedData = Object.entries(data).map(([key, value]) => ({
