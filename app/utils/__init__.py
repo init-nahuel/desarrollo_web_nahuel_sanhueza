@@ -59,6 +59,27 @@ def validate_actividad_data(region: str, comuna: str, sector: str, nombre_organi
     return (True, "")
 
 
+def validate_comentario(nombre_comentario: str, comentario: str) -> Tuple[bool, str]:
+    """Valida la informacion enviada al momento de registrar un comentario en una actividad
+
+    Args:
+        nombre_comentario (str): nombre del usuario que registra el comentario
+        comentario (str): comentario
+
+    Returns:
+        Tuple[bool, str]: Tupla con valor de validacion de la informacion y razon de rechazo en caso de que la validacion sea incorrecta.
+    """
+    is_valid = True
+    reason = ""
+    if len(nombre_comentario) < 3 or len(nombre_comentario) > 80:
+        is_valid = False
+        reason = "El nombre debe tener entre 3 y 80 caracteres. "
+    if len(comentario) < 5:
+        is_valid = False
+        reason += "El comentario debe tener al menos 5 caracteres."
+    return (is_valid, reason)
+
+
 def save_img(img: FileStorage) -> Tuple[str, str]:
     """Guarda una imagen en el servidor
 
