@@ -41,8 +41,11 @@ class Actividad(Base):
         "ActividadTema", back_populates="actividad")
 
     @staticmethod
-    def get_actividades(db: Session, limit: int = 10) -> List[Actividad]:
-        return db.query(Actividad).order_by(Actividad.id.desc()).options(joinedload(Actividad.comuna), joinedload(Actividad.temas), joinedload(Actividad.fotos)).limit(limit).all()
+    def get_actividades(db: Session, limit: Optional[int] = None) -> List[Actividad]:
+        if limit:
+            return db.query(Actividad).order_by(Actividad.id.desc()).options(joinedload(Actividad.comuna), joinedload(Actividad.temas), joinedload(Actividad.fotos)).limit(limit).all()
+
+        return db.query(Actividad).order_by(Actividad.id.desc()).options(joinedload(Actividad.comuna), joinedload(Actividad.temas), joinedload(Actividad.fotos)).all()
 
     @staticmethod
     def get_actividades_paginated(db: Session, page: int, items_per_page: int = 5) -> Tuple[List[Actividad], bool]:
