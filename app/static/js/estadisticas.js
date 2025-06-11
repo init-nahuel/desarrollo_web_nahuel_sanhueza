@@ -85,7 +85,7 @@ fetch("http://127.0.0.1:5000/estadisticas/total_actividades_tipo")
   })
   .catch((e) => console.error("Error", e));
 
-Highcharts.chart("barChartContainer", {
+const barChart = Highcharts.chart("barChartContainer", {
   chart: {
     type: "bar",
   },
@@ -114,14 +114,8 @@ Highcharts.chart("barChartContainer", {
 fetch("http://127.0.0.1:5000/estadisticas/actividades_jornada_mes")
   .then((response) => response.json())
   .then((data) => {
-    const chart = Highcharts.charts.find(
-      (chart) => chart && chart.renderTo.id === "barChartContainer"
-    );
-
-    chart.update({
-      xAxis: {
-        categories: data.meses,
-      },
+    barChart.update({
+      xAxis: { categories: data.meses },
       series: data.series,
     });
   })
