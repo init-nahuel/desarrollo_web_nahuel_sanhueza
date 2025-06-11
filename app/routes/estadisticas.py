@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 import itertools
+import datetime
 from typing import Dict, Any
 
 from app.db import get_db_session
@@ -37,3 +38,47 @@ def get_actividades_por_tipo():
             data[t.tema.value] += 1
 
     return jsonify(data)
+
+
+@estadisticas_routes.get("/actividades_jornada_mes")
+def get_actividades_jornada_mes():
+    actividades = []
+    with next(get_db_session()) as db:
+        actividades = Actividad.get_all_entities(db)
+
+    sorted_actividades_by_date = sorted(
+        actividades, key=lambda a: a.dia_hora_inicio.date())
+
+    data = [
+        {
+            "name": "Mañana",
+            "data": []
+        },
+        {
+            "name": "Mediodia",
+            "data": []
+        },
+        {
+            "name": "Tarde",
+            "data": []
+        }
+    ]
+    meses = []
+    for k, g in itertools.groupby(sorted_actividades_by_date, key=lambda a: (a.dia_hora_inicio.date().year, a.dia_hora_inicio.date().month)):
+        meses.append(datetime.date(k[0], k[1], 1).strftime("%b %Y"))
+
+        actividades_jornada_am = list(
+            filter(lambda a: a.dia_hora_inicio.hour >= 0 and a.dia_hora_inicio.hour < 12, g))
+        actividades_jornada_mid = list(
+            filter(lambda a: a.dia_hora_inicio.hour >= 12 and a.dia_hora_inicio.hour < 13, g))
+        actividades_jornada_pm = list(
+            filter(lambda a: a.dia_hora_inicio.hour >= 13 and a.dia_hora_inicio.hour <= 24, g))
+
+        data[0]["data"].append(len(actividades_jornada_am))
+        data[1]["data"].append(len(actividades_jornada_mid))
+        data[2]["data"].append(len(actividades_jornada_pm))
+
+    return jsonify({
+        "meses": meses,
+        "series": data
+    })

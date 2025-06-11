@@ -84,3 +84,45 @@ fetch("http://127.0.0.1:5000/estadisticas/total_actividades_tipo")
     });
   })
   .catch((e) => console.error("Error", e));
+
+Highcharts.chart("barChartContainer", {
+  chart: {
+    type: "bar",
+  },
+  title: {
+    text: "Cantidad de actividades por mes y jornada de inicio",
+  },
+  xAxis: {
+    categories: [],
+    title: {
+      text: "Mes",
+    },
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: "Cantidad",
+      align: "high",
+    },
+    labels: {
+      overflow: "justify",
+    },
+  },
+  series: [],
+});
+
+fetch("http://127.0.0.1:5000/estadisticas/actividades_jornada_mes")
+  .then((response) => response.json())
+  .then((data) => {
+    const chart = Highcharts.charts.find(
+      (chart) => chart && chart.renderTo.id === "barChartContainer"
+    );
+
+    chart.update({
+      xAxis: {
+        categories: data.meses,
+      },
+      series: data.series,
+    });
+  })
+  .catch((e) => console.error("Error", e));
