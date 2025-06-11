@@ -85,38 +85,89 @@ fetch("http://127.0.0.1:5000/estadisticas/total_actividades_tipo")
   })
   .catch((e) => console.error("Error", e));
 
-const barChart = Highcharts.chart("barChartContainer", {
-  chart: {
-    type: "bar",
+// const barChart = Highcharts.chart("barChartContainer", {
+//   chart: {
+//     type: "bar",
+//   },
+//   title: {
+//     text: "Cantidad de actividades por mes y jornada de inicio",
+//   },
+//   xAxis: {
+//     categories: [],
+//     title: {
+//       text: "Mes",
+//     },
+//   },
+//   yAxis: {
+//     min: 0,
+//     title: {
+//       text: "Cantidad",
+//       align: "high",
+//     },
+//     labels: {
+//       overflow: "justify",
+//     },
+//   },
+//   series: [],
+// });
+
+// fetch("http://127.0.0.1:5000/estadisticas/actividades_jornada_mes")
+//   .then((response) => response.json())
+//   .then((data) => {
+//     barChart.update({
+//       xAxis: { categories: data.meses },
+//       series: data.series,
+//     });
+//   })
+//   .catch((e) => console.error("Error", e));
+// Inicializar el gráfico de barras con Chart.js
+const ctx = document.getElementById("barChartContainer").getContext("2d");
+let barChart = new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: [],
+    datasets: [],
   },
-  title: {
-    text: "Cantidad de actividades por mes y jornada de inicio",
-  },
-  xAxis: {
-    categories: [],
-    title: {
-      text: "Mes",
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Cantidad de actividades por mes y jornada de inicio",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Mes",
+        },
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "Cantidad",
+        },
+      },
     },
   },
-  yAxis: {
-    min: 0,
-    title: {
-      text: "Cantidad",
-      align: "high",
-    },
-    labels: {
-      overflow: "justify",
-    },
-  },
-  series: [],
 });
 
 fetch("http://127.0.0.1:5000/estadisticas/actividades_jornada_mes")
   .then((response) => response.json())
   .then((data) => {
-    barChart.update({
-      xAxis: { categories: data.meses },
-      series: data.series,
-    });
+    const labels = data.meses;
+    const datasets = data.series.map((serie) => ({
+      label: serie.name,
+      data: serie.data,
+    }));
+
+    barChart.data.labels = labels;
+    barChart.data.datasets = datasets;
+    barChart.update();
   })
-  .catch((e) => console.error("Error", e));
+  .catch((e) => console.error("Error:", e));
