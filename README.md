@@ -49,3 +49,9 @@ desarrollo_web_nahuel_sanhueza
 - Al comienzo utilizaba una estructura de datos especifica para enviar los datos hacia el front-end, sin embargo despues conoci `joinedload` para cargar los datos de las entidades relacionadas a una entidad para asi solo enviar la entidad especifica utilizada en la pagina deseada.
 
 - Las validaciones en el backend tambien son acorde a los requerimientos especificados en la Tarea 1.
+
+- Para el grafico de barras "*que muestra tres barras por cada
+punto del eje X. El eje X son los meses y para cada mes muestra una barra con
+la cantidad de actividades que se inician en la mañana, la cantidad de
+actividades que se inician al mediodía y la cantidad de actividades de la tarde. El
+eje Y indica la cantidad*" no logre que se actualizara al mismo tiempo `xAxis.categories` y `series` asi que termine utilizando chartJs para este grafico.
