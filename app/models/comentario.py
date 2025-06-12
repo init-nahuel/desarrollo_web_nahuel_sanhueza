@@ -4,7 +4,7 @@ import datetime
 from app.models import Base, Actividad
 from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 from sqlalchemy.orm import mapped_column, Mapped, relationship, Session
-from typing import Optional
+from typing import Optional, List
 
 
 class Comentario(Base):
@@ -23,5 +23,5 @@ class Comentario(Base):
         "Actividad", back_populates="comentarios")
 
     @staticmethod
-    def get_comentarios_by_actividad_id(db: Session, actividad_id: int) -> Optional[Comentario]:
+    def get_comentarios_by_actividad_id(db: Session, actividad_id: int) -> Optional[List[Comentario]]:
         return db.query(Comentario).filter_by(actividad_id=actividad_id).all()
