@@ -110,7 +110,7 @@
                 <div class="comments-section mt-4">
                     <h2>Comentarios</h2>
                     {% if comentarios %}
-                        <ul class="list-group">
+                        <ul class="list-group" id="commentsSection">
                             {% for comentario in comentarios %}
                                 <li class="list-group-item">
                                     <p><strong>Usuario:</strong> {{ comentario.nombre | e }}</p>

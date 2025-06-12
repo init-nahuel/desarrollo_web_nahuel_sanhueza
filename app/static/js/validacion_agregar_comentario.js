@@ -65,6 +65,35 @@ const validarComentario = () => {
   return isValid;
 };
 
+const getNewAllComments = async () => {
+  const response = await fetch(
+    `http://127.0.0.1:5000/get_comentarios_actividad/${getActividadId()}`
+  );
+  if (response.ok) {
+    const comentarios = await response.json();
+    console.log(comentarios);
+    const commentsSection = document.getElementById("commentsSection");
+    commentsSection.innerHTML = "";
+    renderComentarios(comentarios);
+  }
+};
+
+const renderComentarios = (comentarios) => {
+  const commentsSection = document.querySelector(".comments-section ul");
+  commentsSection.innerHTML = ""; // Limpiar comentarios existentes
+
+  comentarios.forEach((comentario) => {
+    const listItem = document.createElement("li");
+    listItem.className = "list-group-item";
+    listItem.innerHTML = `
+      <p><strong>Usuario:</strong> ${comentario.nombre}</p>
+      <p><strong>Comentario:</strong> ${comentario.texto}</p>
+      <p><small><strong>Fecha:</strong> ${comentario.fecha}</small></p>
+    `;
+    commentsSection.appendChild(listItem);
+  });
+};
+
 const enviarComentario = async (event) => {
   event.preventDefault();
 
@@ -97,6 +126,7 @@ const enviarComentario = async (event) => {
       const result = await response.json();
       form.reset();
       showSuccessStatusMsg();
+      await getNewAllComments();
     } else {
       console.error("Error al enviar el comentario:", response.statusText);
       alert("Hubo un error al enviar el comentario.", response.statusText);

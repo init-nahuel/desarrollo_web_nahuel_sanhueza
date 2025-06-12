@@ -1,7 +1,7 @@
 import markupsafe
 import datetime
 
-from flask import Blueprint, render_template, request, url_for, redirect, make_response
+from flask import Blueprint, render_template, request, url_for, redirect, make_response, jsonify
 
 from app.db import get_db_session
 
@@ -107,8 +107,10 @@ def listado_actividades():
 def detalle_actividad(actividad_id: int):
     with next(get_db_session()) as db:
         actividad = Actividad.get_actividad_by_id(db, actividad_id)
+        comentarios = Comentario.get_comentarios_by_actividad_id(
+            db, actividad_id)
 
-    return render_template("detalle-actividad.html", actividad=actividad)
+    return render_template("detalle-actividad.html", actividad=actividad, comentarios=comentarios)
 
 
 @main_routes.get("/estadisticas")
@@ -134,3 +136,17 @@ def post_agregar_comentario():
                                  fecha=datetime.datetime.now(), actividad_id=actividad_id)
 
     return make_response({"status": "ok"}, 200)
+
+
+@main_routes.get("/get_comentarios_actividad/<int:actividad_id>")
+def get_comentarios_actividad(actividad_id: int):
+    with next(get_db_session()) as db:
+        comentarios: List[Comentario] = Comentario.get_comentarios_by_actividad_id(
+            db, actividad_id)
+
+    return jsonify([{
+        "id": comentario.id,
+        "nombre": comentario.nombre,
+        "texto": comentario.texto,
+        "fecha": comentario.fecha
+    } for comentario in comentarios])
