@@ -1,3 +1,9 @@
+const getActividadId = () => {
+  const path = window.location.pathname;
+  const segments = path.split("/");
+  return segments[segments.length - 1];
+};
+
 const showSuccessStatusMsg = () => {
   const successMessage = document.createElement("span");
   successMessage.id = "successMessage";
@@ -72,6 +78,7 @@ const enviarComentario = async (event) => {
   const data = {
     nombreComentario: formData.get("nombreComentario"),
     comentario: formData.get("comentario"),
+    actividadId: getActividadId(),
   };
 
   try {
@@ -88,7 +95,6 @@ const enviarComentario = async (event) => {
 
     if (response.ok) {
       const result = await response.json();
-      //   alert("Comentario enviado exitosamente.");
       form.reset();
       showSuccessStatusMsg();
     } else {
