@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 
 from werkzeug.datastructures import FileStorage
 
-from app.models import Region
+from app.models import Region, Actividad
 
 from app.db import get_db_session
 
@@ -59,12 +59,13 @@ def validate_actividad_data(region: str, comuna: str, sector: str, nombre_organi
     return (True, "")
 
 
-def validate_comentario(nombre_comentario: str, comentario: str) -> Tuple[bool, str]:
+def validate_comentario(nombre_comentario: str, comentario: str, actividad_id: int) -> Tuple[bool, str]:
     """Valida la informacion enviada al momento de registrar un comentario en una actividad
 
     Args:
         nombre_comentario (str): nombre del usuario que registra el comentario
         comentario (str): comentario
+        actividad_id (int): ID de la actividad a validar existencia
 
     Returns:
         Tuple[bool, str]: Tupla con valor de validacion de la informacion y razon de rechazo en caso de que la validacion sea incorrecta.
@@ -76,7 +77,14 @@ def validate_comentario(nombre_comentario: str, comentario: str) -> Tuple[bool, 
         reason = "El nombre debe tener entre 3 y 80 caracteres. "
     if len(comentario) < 5:
         is_valid = False
-        reason += "El comentario debe tener al menos 5 caracteres."
+        reason += "El comentario debe tener al menos 5 caracteres. "
+
+    with next(get_db_session()) as db:
+        actividad = Actividad.get_entitie_by_id(db, actividad_id)
+        if actividad_id is None:
+            is_valid = False
+            reason += "El ID de la actividad no corresponde a ningun ID de la base de datos."
+
     return (is_valid, reason)
 
 
