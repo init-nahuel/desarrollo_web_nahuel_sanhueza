@@ -11,7 +11,7 @@ from sqlalchemy import String, DateTime, ForeignKey, BigInteger
 from typing import List, Tuple, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from app.models import Comuna, Foto, ContactarPor, ActividadTema
+    from app.models import Comuna, Foto, ContactarPor, ActividadTema, Comentario
 
 
 class Actividad(Base):
@@ -39,6 +39,8 @@ class Actividad(Base):
         "ContactarPor", back_populates="actividad")
     temas: Mapped[List["ActividadTema"]] = relationship(
         "ActividadTema", back_populates="actividad")
+    comentarios: Mapped[List["Comentario"]] = relationship(
+        "Comentario", back_populates="actividad")
 
     @staticmethod
     def get_actividades(db: Session, limit: Optional[int] = None) -> List[Actividad]:

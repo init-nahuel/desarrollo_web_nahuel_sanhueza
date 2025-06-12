@@ -10,3 +10,4 @@ from app.models.foto import Foto
 from app.models.region import Region
 from app.models.comuna import Comuna
 from app.models.actividad_tema import ActividadTema
+from app.models.comentario import Comentario
