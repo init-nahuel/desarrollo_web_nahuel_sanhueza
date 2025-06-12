@@ -1,15 +1,15 @@
 import markupsafe
 import datetime
 
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, make_response
 
 from app.db import get_db_session
 
 from app.models import *
 
-from typing import List
+from typing import List, Dict, Any
 
-from app.utils import validate_actividad_data, save_img
+import app.utils as utils
 
 
 main_routes = Blueprint("main", __name__)
@@ -60,8 +60,8 @@ def post_crear_actividad():
     tema_otro = str(markupsafe.escape(request.form.get("tema", "")))
     fotos = request.files.getlist("inputFotos")
 
-    validation, msg_error = validate_actividad_data(region, comuna, sector, nombre_organizador, email_organizador, telefono_organizador,
-                                                    medio_contacto, identificador_contacto, dio_hora_inicio, dia_hora_termino, tema, tema_otro, fotos)
+    validation, msg_error = utils.validate_actividad_data(region, comuna, sector, nombre_organizador, email_organizador, telefono_organizador,
+                                                          medio_contacto, identificador_contacto, dio_hora_inicio, dia_hora_termino, tema, tema_otro, fotos)
 
     if validation:
         with next(get_db_session()) as db:
@@ -75,7 +75,7 @@ def post_crear_actividad():
                 medio_contacto.upper()]
             contactar_por_entitie = ContactarPor().create_entity(db, nombre=medio_contacto_enum,
                                                                  identificador=identificador_contacto, actividad_id=actividad_entitie.id)
-            saved_files = list(map(save_img, fotos))
+            saved_files = list(map(utils.save_img, fotos))
             for filename, fileroute in saved_files:
                 Foto.create_entity(
                     db, ruta_archivo=fileroute, nombre_archivo=filename, actividad_id=actividad_entitie.id)
@@ -114,3 +114,23 @@ def detalle_actividad(actividad_id: int):
 @main_routes.get("/estadisticas")
 def estadisticas():
     return render_template("estadisticas.html")
+
+
+@main_routes.post("/post_agregar_comentario")
+def post_agregar_comentario():
+    data: Dict[str, Any] = request.get_json()
+    nombre = str(markupsafe.escape(data.get("nombreComentario", "")))
+    comentario = str(markupsafe.escape(data.get("comentario", "")))
+    actividad_id = int(markupsafe.escape(data.get("actividadId")))
+
+    is_valid, reason = utils.validate_comentario(
+        nombre, comentario, actividad_id)
+
+    if not is_valid:
+        return make_response({"reason": reason}, 400)
+
+    with next(get_db_session()) as db:
+        Comentario.create_entity(db, nombre=nombre, texto=comentario,
+                                 fecha=datetime.datetime.now(), actividad_id=actividad_id)
+
+    return make_response({"status": "ok"}, 200)
